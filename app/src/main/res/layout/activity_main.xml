@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     style="@style/layout"
-    tools:context=".MainActivity">
+    tools:context=".ui.Main.MainActivity">
 
     <ImageView
         android:id="@+id/iv_profile"

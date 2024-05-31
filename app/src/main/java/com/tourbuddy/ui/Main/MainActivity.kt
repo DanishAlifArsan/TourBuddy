@@ -1,4 +1,4 @@
-package com.tourbuddy
+package com.tourbuddy.ui.Main
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -24,17 +25,18 @@ import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.tourbuddy.ListDestinationAdapter
+import com.tourbuddy.OnboardingActivity
+import com.tourbuddy.R
 import com.tourbuddy.api.DestinationResponseItem
 import com.tourbuddy.data.Destination
 import com.tourbuddy.databinding.ActivityMainBinding
 import com.tourbuddy.viewModel.DestinationViewModel
 import com.tourbuddy.viewModel.DestinationViewModelFactory
+import com.tourbuddy.viewModel.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.util.Locale
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 
 class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
@@ -45,6 +47,9 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private val list = ArrayList<DestinationResponseItem>()
     private lateinit var destinationViewModel : DestinationViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,7 +155,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 true
             }
             R.id.action_signout -> {
-                auth.signOut()
+                viewModel.logout()
                 startActivity(Intent(this@MainActivity, OnboardingActivity::class.java))
                 finish()
                 true

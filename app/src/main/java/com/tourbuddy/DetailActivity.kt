@@ -3,14 +3,11 @@ package com.tourbuddy
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.tourbuddy.api.DestinationResponseItem
-import com.tourbuddy.data.Destination
 import com.tourbuddy.databinding.ActivityDetailBinding
+import com.tourbuddy.ui.Main.MainActivity
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDetailBinding

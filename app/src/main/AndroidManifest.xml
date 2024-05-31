@@ -20,16 +20,16 @@
             android:name=".DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.register.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".OnboardingActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.Main.MainActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

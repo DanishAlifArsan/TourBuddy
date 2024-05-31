@@ -1,0 +1,85 @@
+package com.tourbuddy.ui.register
+
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.tourbuddy.ui.login.LoginActivity
+import com.tourbuddy.ui.Main.MainActivity
+import com.tourbuddy.api.ResultState
+import com.tourbuddy.databinding.ActivityRegisterBinding
+import com.tourbuddy.viewModel.ViewModelFactory
+
+class RegisterActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var auth: FirebaseAuth
+
+    private val viewModel by viewModels<RegisterViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        auth = Firebase.auth
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupAction()
+    }
+
+    private fun setupAction() {
+        binding.btnSingin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+
+        binding.btnSignup.setOnClickListener {
+            val name = binding.edRegisterName.text.toString()
+            val email = binding.edRegisterEmail.text.toString()
+            val password = binding.edRegisterPassword.text.toString()
+
+            viewModel.register(name, email, password).observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is ResultState.Loading -> {
+                        }
+
+                        is ResultState.Success -> {
+//                            showToast("Akun anda sudah jadi")
+                            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+                            finish()
+                        }
+
+                        is ResultState.Error -> {
+                            showToast(result.error)
+                        }
+                    }
+                }
+
+//            if (email.isNotEmpty() && password.isNotEmpty())
+//                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+//                    if (it.isSuccessful){
+//                        startActivity(Intent(this, MainActivity::class.java))
+//                        finish()
+//                    }
+//                }.addOnFailureListener{
+//                    Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
+//                }
+            }
+
+            binding.btnBack.setOnClickListener {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+}

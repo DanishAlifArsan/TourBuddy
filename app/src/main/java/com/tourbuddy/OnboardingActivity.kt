@@ -2,12 +2,9 @@ package com.tourbuddy
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.tourbuddy.databinding.ActivityLoginBinding
 import com.tourbuddy.databinding.ActivityOnboardingBinding
+import com.tourbuddy.ui.login.LoginActivity
 
 class OnboardingActivity : AppCompatActivity() {
 
