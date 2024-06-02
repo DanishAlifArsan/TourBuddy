@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sedrhana dari Maps</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Cari Tempat</h1>
+    <form id="searchForm">
+        <input type="text" id="placeInput" placeholder="Enter place name" required>
+        <button type="submit">Cari</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const place = document.getElementById('placeInput').value;
+
+            const response = await fetch('/api/locations/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ place })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                const { latitude, longitude } = data;
+                const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+                document.getElementById('result').innerHTML = `<a href="${mapsUrl}" target="_blank">Buka Maps</a>`;
+            } else {
+                document.getElementById('result').innerText = data.error;
+            }
+        });
+    </script>
+</body>
+</html>
