@@ -14,7 +14,7 @@ router.post('/search', async (req, res) => {
             const { lat, lng } = candidates[0].geometry.location;
             res.json({ latitude: lat, longitude: lng });
         } else {
-            res.status(404).json({ error: 'Place not found' });
+            res.status(404).json({ error: 'Tempat tidak ditemukan' });
         }
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });

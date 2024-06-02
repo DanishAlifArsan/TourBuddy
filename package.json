@@ -1,11 +1,11 @@
 {
   "name": "api-google-maps",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "deploy": "gcloud app deploy",
-    "uhuyy": "gcloud run deploy --image gcr.io/maps-api-abe/google-maps-app --platform managed"
+    "uhuyy": "gcloud run deploy --image gcr.io/tourbuddy-api-425203/google-maps-app --platform managed"
   },
   "keywords": [],
   "author": "",
