@@ -13,3 +13,5 @@ untuk cara testing menggunakan postman:
 - bagian setelah link beri /api/auth
 - pilih signup atau login
 - udah tinggal test di raw dulu
+- bisa juga di encoded
+  
