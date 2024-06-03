@@ -1,31 +1,48 @@
 const argon2 = require('argon2');
 const { admin, db } = require('../config/firebaseConfig');
 const generateToken = require('../utils/generateToken');
+const { validationResult } = require('express-validator');
+
+
+const handleValidationErrors = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const firstError = errors.array()[0];
+        return res.status(400).json({
+            error: true,
+            message: `"${firstError.param}" ${firstError.msg}`
+        });
+    } return null;
+};
 
 const signUp = async (req, res) => {
+
+    const validationError = handleValidationErrors(req, res);
+    if (validationError) return validationError;
+
     const { username, email, password } = req.body;
 
     try {
-        console.log('Checking if user already exists...');
+        console.log('Memeriksa apakah pengguna sudah ada...');
         const userRef = db.collection('users').doc(email);
         const userDoc = await userRef.get();
 
         if (userDoc.exists) {
-            console.log('User already exists.');
-            return res.status(400).json({ error: true, message: 'Email already exists' });
+            console.log('Pengguna sudah ada.');
+            return res.status(400).json({ error: true, message: 'Email already exist' });
         }
 
-        console.log('Hashing password...');
+        console.log('Meng-hash password...');
         const hashedPassword = await argon2.hash(password);
 
-        console.log('Creating user in Firebase Authentication...');
+        console.log('Membuat pengguna di Firebase Authentication...');
         const userRecord = await admin.auth().createUser({
             email: email,
             password: password,
             displayName: username,
         });
 
-        console.log('Saving user to Firestore...');
+        console.log('Menyimpan pengguna ke Firestore...');
         await userRef.set({
             username,
             email,
@@ -34,7 +51,7 @@ const signUp = async (req, res) => {
         });
 
         const token = generateToken(email);
-        console.log('User created successfully.');
+        console.log('Pengguna berhasil dibuat.');
         return res.status(201).json({
             error: false,
             message: 'User Created',
@@ -43,38 +60,42 @@ const signUp = async (req, res) => {
             id: email
         });
     } catch (error) {
-        console.error('Error during sign up:', error);  // Logging error
+        console.error('Kesalahan selama pendaftaran:', error);  // Logging error
         return res.status(500).json({ error: true, message: error.message });
     }
 };
 
 const login = async (req, res) => {
+
+    const validationError = handleValidationErrors(req, res);
+    if (validationError) return validationError;
+
     const { email, password } = req.body;
 
     try {
-        console.log('Checking if user exists...');
+        console.log('Memeriksa apakah pengguna ada...');
         const userRef = db.collection('users').doc(email);
         const userDoc = await userRef.get();
 
         if (!userDoc.exists) {
-            console.log('User not found.');
-            return res.status(400).json({ error: true, message: 'Invalid credentials' });
+            console.log('Pengguna tidak ditemukan.');
+            return res.status(400).json({ error: true, message: 'invalid Credentials' });
         }
 
         const userData = userDoc.data();
-        console.log('Verifying password...');
+        console.log('Memverifikasi password...');
         const isMatch = await argon2.verify(userData.password, password);
 
         if (!isMatch) {
-            console.log('Password does not match.');
-            return res.status(400).json({ error: true, message: 'Invalid credentials' });
+            console.log('Password tidak cocok.');
+            return res.status(400).json({ error: true, message: 'invalid Credentials' });
         }
 
         const token = generateToken(email);
-        console.log('User logged in successfully.');
+        console.log('Pengguna berhasil masuk.');
         return res.status(200).json({
             error: false,
-            message: 'success',
+            message: 'Berhasil',
             loginResult: {
                 userId: email,
                 name: userData.username,
@@ -82,7 +103,7 @@ const login = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error('Error during login:', error);  // Logging error
+        console.error('Kesalahan selama masuk:', error);  // Logging error
         return res.status(500).json({ error: true, message: error.message });
     }
 };
