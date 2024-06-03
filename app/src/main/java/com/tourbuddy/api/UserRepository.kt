@@ -31,7 +31,7 @@ class UserRepository private constructor(
     fun register(name: String, email: String, password: String) = liveData {
         try {
             val successResponse = apiService.register(name, email, password)
-            successResponse.registerResult?.token?.let { it ->
+            successResponse.token?.let { it ->
                 UserModel(
                     it,
                     email,
