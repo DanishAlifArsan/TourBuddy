@@ -66,10 +66,8 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         rvDestination = binding.rvDestination
         rvDestination.setHasFixedSize(true)
 
-        destinationViewModel.getAllDestination("Indonesia").observe(this) {
-            list.addAll(it.destinationResponse)
-            showRecyclerlist()
-        }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        getMyLastLocation()
 
         destinationViewModel.isLoading.observe(this) {
             showLoading(it)
@@ -91,11 +89,6 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 
         binding.ivProfile.setOnClickListener {
             showMenu(it)
-        }
-
-        binding.btnLocation.setOnClickListener{
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            getMyLastLocation()
         }
     }
 
