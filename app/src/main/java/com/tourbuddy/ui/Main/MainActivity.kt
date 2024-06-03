@@ -28,14 +28,19 @@ import com.google.firebase.ktx.Firebase
 import com.tourbuddy.ListDestinationAdapter
 import com.tourbuddy.OnboardingActivity
 import com.tourbuddy.R
+import com.tourbuddy.ui.Main.MainViewModel
 import com.tourbuddy.api.DestinationResponseItem
 import com.tourbuddy.data.Destination
 import com.tourbuddy.databinding.ActivityMainBinding
+import com.tourbuddy.pref.UserPreference
+import com.tourbuddy.pref.dataStore
 import com.tourbuddy.viewModel.DestinationViewModel
 import com.tourbuddy.viewModel.DestinationViewModelFactory
 import com.tourbuddy.viewModel.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 
@@ -53,35 +58,22 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = Firebase.auth
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //mendapatkan token
-        val mUser = auth.currentUser
-        mUser!!.getIdToken(true)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val idToken = task.result.token
+        destinationViewModel = obtainViewModel(this@MainActivity)
 
-                    //retrofit untuk akses ke api
-                    destinationViewModel = obtainViewModel(idToken.toString())
+        rvDestination = binding.rvDestination
+        rvDestination.setHasFixedSize(true)
 
-                    rvDestination = binding.rvDestination
-                    rvDestination.setHasFixedSize(true)
+        destinationViewModel.getAllDestination("Indonesia").observe(this) {
+            list.addAll(it.destinationResponse)
+            showRecyclerlist()
+        }
 
-                    destinationViewModel.destination.observe(this) {
-                        list.addAll(it.destinationResponse)
-                        showRecyclerlist()
-                    }
-
-                    destinationViewModel.isLoading.observe(this) {
-                        showLoading(it)
-                    }
-                } else {
-                    task.exception
-                }
-            }
+        destinationViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
 
         with(binding){
             searchBar.clearFocus()
@@ -164,9 +156,9 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         }
     }
 
-    private fun obtainViewModel(token : String) : DestinationViewModel {
-        val factory = DestinationViewModelFactory.getInstance(token, CoroutineScope(Dispatchers.IO))
-        return ViewModelProvider(this, factory).get(DestinationViewModel::class.java)
+    private fun obtainViewModel(activity: AppCompatActivity) : DestinationViewModel {
+        val factory = DestinationViewModelFactory.getInstance(activity)
+        return ViewModelProvider(activity, factory).get(DestinationViewModel::class.java)
     }
 
     private fun showLoading(isLoading : Boolean) {
@@ -216,12 +208,15 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                     geocoder.getAddress(location.latitude, location.longitude) {
                         if(it != null) {
                             Log.d("TAG", "getAddress: ")
-                            currentLocation = it.adminArea
+                            currentLocation = it.subAdminArea
                         }
                     }
                 }
                 binding.btnLocation.text = currentLocation
-                destinationViewModel.getAllDestination(currentLocation)
+                destinationViewModel.getAllDestination(currentLocation).observe(this) {
+                    list.addAll(it.destinationResponse)
+                    showRecyclerlist()
+                }
             }
 
         } else {

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,7 +57,7 @@ class ReviewFragment : Fragment() {
                     val idToken = task.result.token
 
                     //retrofit untuk akses ke api
-                    val listReviewViewModel = obtainViewModel(idToken.toString())
+                    val listReviewViewModel = obtainViewModel(activity as AppCompatActivity)
 
                     rvReview = binding.rvDestination
                     rvReview.setHasFixedSize(true)
@@ -101,8 +102,8 @@ class ReviewFragment : Fragment() {
         rvReview.adapter = listReviewAdapter
     }
 
-    private fun obtainViewModel(token : String) : ListReviewViewModel {
-        val factory = DestinationViewModelFactory.getInstance(token, CoroutineScope(Dispatchers.IO))
+    private fun obtainViewModel(activity: AppCompatActivity) : ListReviewViewModel {
+        val factory = DestinationViewModelFactory.getInstance(activity)
         return ViewModelProvider(this, factory).get(ListReviewViewModel::class.java)
     }
     private fun showLoading(isLoading : Boolean) {
