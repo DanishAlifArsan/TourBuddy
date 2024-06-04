@@ -6,34 +6,40 @@ import kotlinx.parcelize.Parcelize
 
 data class DestinationResponse(
 
-	@field:SerializedName("list_destination")
-	val destinationResponse: ArrayList<DestinationResponseItem>
+	@field:SerializedName("listDestinations")
+	val listDestinations: ArrayList<ListDestinationsItem>,
+
+	@field:SerializedName("error")
+	val error: Boolean? = null,
+
+	@field:SerializedName("message")
+	val message: String? = null
 )
 
 @Parcelize
-data class DestinationResponseItem(
+data class ListDestinationsItem(
+
+	@field:SerializedName("photoUrl")
+	val photoUrl: String,
 
 	@field:SerializedName("city")
-	val city: String? = null,
-
-	@field:SerializedName("image_url")
-	val imageUrl: String? = null,
+	val city: String,
 
 	@field:SerializedName("destination_id")
-	val destinationId: String? = null,
-
-	@field:SerializedName("name")
-	val name: String? = null,
+	val destinationId: String,
 
 	@field:SerializedName("rating")
-	val rating: String? = null,
+	val rating: Float,
 
 	@field:SerializedName("description")
-	val description: String? = null,
+	val description: String,
 
-	@field:SerializedName("maps-url")
-	val mapsUrl: String? = null,
+	@field:SerializedName("destination_name")
+	val destinationName: String,
+
+	@field:SerializedName("url_maps")
+	val urlMaps: String,
 
 	@field:SerializedName("rating_count")
-	val reviewCount: String? = null
+	val ratingCount: Int
 ) : Parcelable

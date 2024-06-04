@@ -8,11 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.tourbuddy.api.DestinationResponseItem
-import com.tourbuddy.data.Destination
-import org.w3c.dom.Text
+import com.tourbuddy.api.ListDestinationsItem
 
-class ListDestinationAdapter(private var listDestination: ArrayList<DestinationResponseItem>): RecyclerView.Adapter<ListDestinationAdapter.ListViewHolder>(){
+class ListDestinationAdapter(private var listDestination: List<ListDestinationsItem>): RecyclerView.Adapter<ListDestinationAdapter.ListViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -24,15 +22,21 @@ class ListDestinationAdapter(private var listDestination: ArrayList<DestinationR
     override fun getItemCount(): Int = listDestination.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (city, photo, id, name, rating, description, location, reviewCount) = listDestination[position]
+        val (photo, city, id, rating, description, name, location, ratingCount) = listDestination[position]
 
         holder.tvName.text = name
         holder.tvlocation.text = city
-        holder.tvRating.text = rating
-        holder.tvReviewCount.text = holder.itemView.context.getString(R.string.review_count, reviewCount)
+        holder.tvRating.text = rating.toString()
+        holder.tvReviewCount.text = holder.itemView.context.getString(R.string.review_count, ratingCount.toString())
         Glide.with(holder.itemView.context)
             .load(photo)
             .into(holder.imgPhoto)
+
+        val filledStarResId = R.drawable.star_enabled
+
+        for (i in 1 .. rating.toInt()) {
+            holder.stars[i-1].setImageResource(filledStarResId)
+        }
 
         holder.itemView.setOnClickListener {
             val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
@@ -41,7 +45,7 @@ class ListDestinationAdapter(private var listDestination: ArrayList<DestinationR
         }
     }
 
-    fun setFilteredList(filteredDestination : ArrayList<DestinationResponseItem>) {
+    fun setFilteredList(filteredDestination : List<ListDestinationsItem>) {
         listDestination = filteredDestination
         notifyDataSetChanged()
 
@@ -53,5 +57,10 @@ class ListDestinationAdapter(private var listDestination: ArrayList<DestinationR
         val tvlocation: TextView = itemView.findViewById(R.id.tv_location)
         val tvRating : TextView = itemView.findViewById(R.id.tv_rating)
         val tvReviewCount : TextView = itemView.findViewById(R.id.tv_review_count)
+        val stars : List<ImageView> = listOf(itemView.findViewById(R.id.star1),
+            itemView.findViewById(R.id.star2),
+            itemView.findViewById(R.id.star3),
+            itemView.findViewById(R.id.star4),
+            itemView.findViewById(R.id.star5))
     }
 }

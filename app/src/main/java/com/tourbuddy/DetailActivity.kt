@@ -5,7 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.tourbuddy.api.DestinationResponseItem
+import com.tourbuddy.api.ListDestinationsItem
 import com.tourbuddy.databinding.ActivityDetailBinding
 import com.tourbuddy.ui.Main.MainActivity
 
@@ -17,14 +17,14 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val destination = if (Build.VERSION.SDK_INT >= 33) {
-            intent.getParcelableExtra<DestinationResponseItem>("key_destination", DestinationResponseItem::class.java)
+            intent.getParcelableExtra<ListDestinationsItem>("key_destination", ListDestinationsItem::class.java)
         } else {
             @Suppress("DEPRECATION")
-            intent.getParcelableExtra<DestinationResponseItem>("key_destination")
+            intent.getParcelableExtra<ListDestinationsItem>("key_destination")
         }
 
         Glide.with(this)
-            .load(destination?.imageUrl)
+            .load(destination?.photoUrl)
             .into(binding.ivPhoto)
 
         val bundle = Bundle()

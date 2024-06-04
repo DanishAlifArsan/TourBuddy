@@ -15,12 +15,12 @@ class DestinationRepository private constructor(
 ) {
     val _isLoading = MutableLiveData<Boolean>()
 
-    fun getAllDestination(city : String) : MutableLiveData<DestinationResponse> {
+    fun getAllDestination(lat : Float, lon : Float) : MutableLiveData<DestinationResponse> {
         val _destination = MutableLiveData<DestinationResponse>()
         _isLoading.value = true
         scope.launch {
             try {
-                _destination.postValue(apiService.getAllDestinations(city))
+                _destination.postValue(apiService.getAllDestinations(lat, lon))
                 _isLoading.postValue(false)
                 Log.d("TAG", "getAllDestination: success")
             } catch (e : HttpException) {

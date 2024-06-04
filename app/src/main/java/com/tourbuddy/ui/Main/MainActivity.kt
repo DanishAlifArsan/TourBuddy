@@ -28,19 +28,12 @@ import com.google.firebase.ktx.Firebase
 import com.tourbuddy.ListDestinationAdapter
 import com.tourbuddy.OnboardingActivity
 import com.tourbuddy.R
-import com.tourbuddy.ui.Main.MainViewModel
-import com.tourbuddy.api.DestinationResponseItem
+import com.tourbuddy.api.ListDestinationsItem
 import com.tourbuddy.data.Destination
 import com.tourbuddy.databinding.ActivityMainBinding
-import com.tourbuddy.pref.UserPreference
-import com.tourbuddy.pref.dataStore
 import com.tourbuddy.viewModel.DestinationViewModel
 import com.tourbuddy.viewModel.DestinationViewModelFactory
 import com.tourbuddy.viewModel.ViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 
@@ -49,7 +42,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var rvDestination: RecyclerView
     private lateinit var listDestinationAdapter : ListDestinationAdapter
     private lateinit var auth: FirebaseAuth
-    private val list = ArrayList<DestinationResponseItem>()
+    private val list = ArrayList<ListDestinationsItem>()
     private lateinit var destinationViewModel : DestinationViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel by viewModels<MainViewModel> {
@@ -111,10 +104,10 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     }
 
     private fun filterList(filter : String) {
-        val filteredList = ArrayList<DestinationResponseItem>()
+        val filteredList = ArrayList<ListDestinationsItem>()
         for (item in list) {
-            if (item.name.toString().lowercase().contains(filter.lowercase()) ||
-                item.city.toString().lowercase().contains(filter.lowercase())) {
+            if (item.destinationName.lowercase().contains(filter.lowercase()) ||
+                item.city.lowercase().contains(filter.lowercase())) {
                 filteredList.add(item)
             }
         }
@@ -193,22 +186,23 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
             checkPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
         ) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                var currentLocation = "Indonesia"
-                Log.d("TAG", location?.latitude.toString())
+                Log.d("TAG", "${location?.latitude},${location?.longitude}")
                 if (location != null) {
                     val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
                     Log.d("TAG", "getMyLastLocation: ")
                     geocoder.getAddress(location.latitude, location.longitude) {
                         if(it != null) {
                             Log.d("TAG", "getAddress: ")
-                            currentLocation = it.subAdminArea
+                            val currentLocation = it.subAdminArea
+                            val lat = it.latitude.toFloat()
+                            val lon = it.longitude.toFloat()
+                            binding.btnLocation.text = currentLocation
+                            destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->
+                                list.addAll(response.listDestinations)
+                                showRecyclerlist()
+                            }
                         }
                     }
-                }
-                binding.btnLocation.text = currentLocation
-                destinationViewModel.getAllDestination(currentLocation).observe(this) {
-                    list.addAll(it.destinationResponse)
-                    showRecyclerlist()
                 }
             }
 

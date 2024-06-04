@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tourbuddy.api.DestinationResponseItem
+import com.tourbuddy.api.ListDestinationsItem
 import com.tourbuddy.databinding.FragmentDetailBinding
 
 class DetailFragment : Fragment() {
@@ -24,17 +24,17 @@ class DetailFragment : Fragment() {
 
         if (arguments != null) {
             val destination = if (Build.VERSION.SDK_INT >= 33) {
-                arguments?.getParcelable("key_destination", DestinationResponseItem::class.java)
+                arguments?.getParcelable("key_destination", ListDestinationsItem::class.java)
             } else {
                 @Suppress("DEPRECATION")
                 arguments?.getParcelable("key_destination")
             }
 
-            binding.tvName.text = destination?.name
+            binding.tvName.text = destination?.destinationName
             binding.tvLocation.text = destination?.city
             binding.tvSubtitle.text = destination?.city
-            binding.tvRating.text = destination?.rating
-            binding.tvReviewCount.text = getString(R.string.hint_review_count, destination?.reviewCount)
+            binding.tvRating.text = destination?.rating.toString()
+            binding.tvReviewCount.text = getString(R.string.hint_review_count, destination?.ratingCount.toString())
             binding.tvDescription.text = destination?.description
         }
 
