@@ -7,11 +7,11 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @FormUrlEncoded
+
     @GET("destination")
     suspend fun getAllDestinations(
-        @Field("lat") lat: Float,
-        @Field("lon") lon: Float
+        @Query("lat") lat: Float,
+        @Query("lon") lon: Float
     ): DestinationResponse
 
         @GET("reviews")
