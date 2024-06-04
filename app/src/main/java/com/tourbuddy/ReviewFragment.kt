@@ -45,6 +45,9 @@ class ReviewFragment : Fragment() {
 
         destinationId = arguments?.getString("destination_id")
 
+        rvReview = binding.rvDestination
+        rvReview.setHasFixedSize(true)
+
         listReviewViewModel = obtainViewModel(activity as AppCompatActivity)
         listReviewViewModel.isLoading.observe(viewLifecycleOwner) {
             showLoading(it)
@@ -65,8 +68,7 @@ class ReviewFragment : Fragment() {
             }
         }
 
-//        rvReview = binding.rvDestination
-//        rvReview.setHasFixedSize(true)
+
 //
 //        list.addAll(getListReview())
 //        showRecyclerList()
