@@ -30,7 +30,7 @@ class DetailFragment : Fragment() {
                 arguments?.getParcelable("key_destination")
             }
 
-            val id = destination?.destinationId
+            val destinationId = destination?.destinationId
 
             binding.tvName.text = destination?.destinationName
             binding.tvLocation.text = destination?.city
@@ -42,7 +42,7 @@ class DetailFragment : Fragment() {
             binding.btnReview.setOnClickListener{
                 val reviewFragment = ReviewFragment()
                 val bundle = Bundle()
-                bundle.putString("destination_id", id)
+                bundle.putString("destination_id", destinationId)
                 reviewFragment.arguments = bundle
 
                 val fragmentManager = parentFragmentManager

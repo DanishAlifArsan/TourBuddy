@@ -9,6 +9,9 @@ import com.tourbuddy.databinding.FragmentWriteReviewBinding
 
 class WriteReviewFragment : Fragment() {
     private lateinit var binding : FragmentWriteReviewBinding
+    private var destinationId: String? = null
+    private var rating: Int = 0
+    private var review: String = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -19,6 +22,52 @@ class WriteReviewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.star1.setOnClickListener {
+            binding.star1.setImageResource(R.drawable.star_enabled)
+            binding.star2.setImageResource(R.drawable.star_disable)
+            binding.star3.setImageResource(R.drawable.star_disable)
+            binding.star4.setImageResource(R.drawable.star_disable)
+            binding.star5.setImageResource(R.drawable.star_disable)
+            rating = 1
+        }
+        binding.star2.setOnClickListener {
+            binding.star1.setImageResource(R.drawable.star_enabled)
+            binding.star2.setImageResource(R.drawable.star_enabled)
+            binding.star3.setImageResource(R.drawable.star_disable)
+            binding.star4.setImageResource(R.drawable.star_disable)
+            binding.star5.setImageResource(R.drawable.star_disable)
+            rating = 2
+        }
+        binding.star3.setOnClickListener {
+            binding.star1.setImageResource(R.drawable.star_enabled)
+            binding.star2.setImageResource(R.drawable.star_enabled)
+            binding.star3.setImageResource(R.drawable.star_enabled)
+            binding.star4.setImageResource(R.drawable.star_disable)
+            binding.star5.setImageResource(R.drawable.star_disable)
+            rating = 3
+        }
+        binding.star4.setOnClickListener {
+            binding.star1.setImageResource(R.drawable.star_enabled)
+            binding.star2.setImageResource(R.drawable.star_enabled)
+            binding.star3.setImageResource(R.drawable.star_enabled)
+            binding.star4.setImageResource(R.drawable.star_enabled)
+            binding.star5.setImageResource(R.drawable.star_disable)
+            rating = 4
+        }
+        binding.star5.setOnClickListener {
+            binding.star1.setImageResource(R.drawable.star_enabled)
+            binding.star2.setImageResource(R.drawable.star_enabled)
+            binding.star3.setImageResource(R.drawable.star_enabled)
+            binding.star4.setImageResource(R.drawable.star_enabled)
+            binding.star5.setImageResource(R.drawable.star_enabled)
+            rating = 5
+        }
+
+        review = binding.edAddReview.text.toString()
+
+        destinationId = arguments?.getString("destination_id")
+
         binding.btnPostReview.setOnClickListener{
             val fragmentManager = parentFragmentManager
             fragmentManager.popBackStack()

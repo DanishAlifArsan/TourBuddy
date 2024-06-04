@@ -60,6 +60,10 @@ class ReviewFragment : Fragment() {
 
         binding.btnWriteReview.setOnClickListener{
             val writeReviewFragment = WriteReviewFragment()
+            val bundle = Bundle()
+            bundle.putString("destination_id", destinationId)
+            writeReviewFragment.arguments = bundle
+
             val fragmentManager = parentFragmentManager
             fragmentManager.beginTransaction().apply {
                 replace(R.id.frame_container, writeReviewFragment, WriteReviewFragment::class.java.simpleName)
@@ -67,7 +71,6 @@ class ReviewFragment : Fragment() {
                 commit()
             }
         }
-
 
 //
 //        list.addAll(getListReview())

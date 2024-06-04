@@ -27,6 +27,7 @@ class ListReviewAdapter(private val listReview: ArrayList<ListReviewsItem>) : Re
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val (date, name , review, rating)= listReview[position]
 
+        holder.imgPhoto.setImageResource(R.drawable.ic_face)
         holder.tvName.text = name
         holder.tvReview.text = review
         holder.tvRating.text = rating.toString()
