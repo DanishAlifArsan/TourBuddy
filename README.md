@@ -4,7 +4,7 @@ Cloud Computing
 
 buat temen temen yang mau testing bisa di coba di endpoint ini:
 
-https://auth-new-service-jcoc7wc2ka-et.a.run.app
+https://auth-service-jcoc7wc2ka-et.a.run.app
 
 untuk cara testing menggunakan postman:
 
