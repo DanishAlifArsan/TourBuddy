@@ -9,12 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.tourbuddy.api.ListReviewItem
 import com.tourbuddy.api.ListReviewResponse
+import com.tourbuddy.api.ListReviewsItem
 import com.tourbuddy.data.Review
 
-class ListReviewAdapter(private val listReview: ArrayList<ListReviewItem>) : RecyclerView.Adapter<ListReviewAdapter.ListViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+class ListReviewAdapter(private val listReview: ArrayList<ListReviewsItem>) : RecyclerView.Adapter<ListReviewAdapter.ListViewHolder>(){
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ListViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.review_list_item, parent, false)
         return ListViewHolder(view)
     }
@@ -22,19 +25,16 @@ class ListReviewAdapter(private val listReview: ArrayList<ListReviewItem>) : Rec
     override fun getItemCount(): Int = listReview.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (date,id, review, photo, destination_id, name, rating)= listReview[position]
-        Glide.with(holder.itemView.context)
-            .load(photo)
-            .into(holder.imgPhoto)
+        val (date, name , review, rating)= listReview[position]
+
         holder.tvName.text = name
         holder.tvReview.text = review
-        holder.tvRating.text = rating
+        holder.tvRating.text = rating.toString()
         holder.tvDate.text = date
 
         val filledStarResId = R.drawable.star_enabled
         val emptyStarResId = R.drawable.star_disable
-        val intRating = rating.toInt()
-        when(intRating){
+        when(rating){
             5 -> {
                 holder.ivStar1.setImageResource(filledStarResId)
                 holder.ivStar2.setImageResource(filledStarResId)

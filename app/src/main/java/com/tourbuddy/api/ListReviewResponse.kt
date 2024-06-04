@@ -4,30 +4,27 @@ import com.google.gson.annotations.SerializedName
 
 data class ListReviewResponse(
 
-	@field:SerializedName("list_review")
-	val listReview: ArrayList<ListReviewItem>
+	@field:SerializedName("listReviews")
+	val listReviews: ArrayList<ListReviewsItem>,
+
+	@field:SerializedName("error")
+	val error: Boolean? = null,
+
+	@field:SerializedName("message")
+	val message: String? = null
 )
 
-data class ListReviewItem(
+data class ListReviewsItem(
 
-	@field:SerializedName("date")
-	val date: String,
+	@field:SerializedName("createdAt")
+	val createdAt: String,
 
-	@field:SerializedName("review_id")
-	val reviewId: String,
+	@field:SerializedName("reviewer_name")
+	val reviewerName: String,
 
 	@field:SerializedName("review")
 	val review: String,
 
-	@field:SerializedName("image_url")
-	val imageUrl: String,
-
-	@field:SerializedName("destination_id")
-	val destinationId: String,
-
-	@field:SerializedName("name")
-	val name: String,
-
-	@field:SerializedName("rating")
-	val rating: String
+	@field:SerializedName("“rating”")
+	val rating: Int
 )

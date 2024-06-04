@@ -28,9 +28,6 @@ class DestinationViewModelFactory (private val repository: DestinationRepository
         if (modelClass.isAssignableFrom(DestinationViewModel::class.java)) {
             return DestinationViewModel(repository) as T
         }
-//        if (modelClass.isAssignableFrom(ListReviewViewModel::class.java)) {
-//            return ListReviewViewModel(repository) as T
-//        }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

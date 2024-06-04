@@ -14,8 +14,8 @@ interface ApiService {
         @Query("lon") lon: Float
     ): DestinationResponse
 
-        @GET("reviews")
-    fun getAllReview(
-        @Query("id") id: String
-    ): Call<ListReviewResponse>
+    @GET("review")
+    suspend fun getAllReview(
+        @Query("destination_id") destination_id: String?,
+    ): ListReviewResponse
 }

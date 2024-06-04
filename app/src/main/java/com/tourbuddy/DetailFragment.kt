@@ -30,21 +30,27 @@ class DetailFragment : Fragment() {
                 arguments?.getParcelable("key_destination")
             }
 
+            val id = destination?.destinationId
+
             binding.tvName.text = destination?.destinationName
             binding.tvLocation.text = destination?.city
             binding.tvSubtitle.text = destination?.city
             binding.tvRating.text = destination?.rating.toString()
             binding.tvReviewCount.text = getString(R.string.hint_review_count, destination?.ratingCount.toString())
             binding.tvDescription.text = destination?.description
-        }
 
-        binding.btnReview.setOnClickListener{
-            val reviewFragment = ReviewFragment()
-            val fragmentManager = parentFragmentManager
-            fragmentManager.beginTransaction().apply {
-                replace(R.id.frame_container, reviewFragment, ReviewFragment::class.java.simpleName)
-                addToBackStack(null)
-                commit()
+            binding.btnReview.setOnClickListener{
+                val reviewFragment = ReviewFragment()
+                val bundle = Bundle()
+                bundle.putString("destination_id", id)
+                reviewFragment.arguments = bundle
+
+                val fragmentManager = parentFragmentManager
+                fragmentManager.beginTransaction().apply {
+                    replace(R.id.frame_container, reviewFragment, ReviewFragment::class.java.simpleName)
+                    addToBackStack(null)
+                    commit()
+                }
             }
         }
     }

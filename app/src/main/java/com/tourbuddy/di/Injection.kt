@@ -8,6 +8,7 @@ import com.tourbuddy.pref.UserPreference
 import com.tourbuddy.pref.dataStore
 import com.tourbuddy.viewModel.DestinationRepository
 import com.tourbuddy.viewModel.DestinationViewModel
+import com.tourbuddy.viewModel.ReviewRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -25,5 +26,12 @@ object Injection {
         val token = runBlocking { pref.getSession().first().token }
         val apiService = ApiConfig.getApiService(token)
         return DestinationRepository.getInstance(apiService, CoroutineScope(Dispatchers.IO))
+    }
+
+    fun provideReviewRepository(context: Context) : ReviewRepository {
+        val pref = UserPreference.getInstance(context.dataStore)
+        val token = runBlocking { pref.getSession().first().token }
+        val apiService = ApiConfig.getApiService(token)
+        return ReviewRepository.getInstance(apiService, CoroutineScope(Dispatchers.IO))
     }
 }
