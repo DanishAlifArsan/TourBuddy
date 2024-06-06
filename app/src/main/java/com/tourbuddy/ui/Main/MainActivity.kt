@@ -1,6 +1,8 @@
 package com.tourbuddy.ui.Main
 
+import android.app.Activity
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -20,11 +22,15 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.location.LocationSettingsStates
+import com.google.android.gms.location.SettingsClient
+import com.google.android.gms.tasks.Task
 import com.tourbuddy.ListDestinationAdapter
 import com.tourbuddy.OnboardingActivity
 import com.tourbuddy.R
@@ -41,7 +47,6 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding : ActivityMainBinding
     private lateinit var rvDestination: RecyclerView
     private lateinit var listDestinationAdapter : ListDestinationAdapter
-    private lateinit var auth: FirebaseAuth
     private val list = ArrayList<ListDestinationsItem>()
     private lateinit var destinationViewModel : DestinationViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -60,7 +65,8 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         rvDestination.setHasFixedSize(true)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        getMyLastLocation()
+
+        createLocationRequest()
 
         destinationViewModel.isLoading.observe(this) {
             showLoading(it)
@@ -181,6 +187,30 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    fun createLocationRequest() {
+        val locationRequest = LocationRequest.Builder(UPDATE_INTERVAL_IN_MILLISECONDS)
+            .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+            .build()
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+
+        val client : SettingsClient = LocationServices.getSettingsClient(this)
+        val task : Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+        task.addOnSuccessListener {
+            getMyLastLocation()
+        }
+        task.addOnFailureListener {
+            if (it is ResolvableApiException) {
+                try {
+                    it.startResolutionForResult(this@MainActivity, REQUEST_CHECK_SETTINGS)
+                } catch (e : IntentSender.SendIntentException) {
+                    Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     private fun getMyLastLocation() {
         if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
             checkPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -205,7 +235,6 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                     }
                 }
             }
-
         } else {
             requestPermissionLauncher.launch(
                 arrayOf(
@@ -235,5 +264,26 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         } catch(e: Exception) {
             address(null)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            REQUEST_CHECK_SETTINGS -> when (resultCode) {
+                Activity.RESULT_OK -> {
+                    //setting lokasi aktif
+                    getMyLastLocation()
+                }
+                Activity.RESULT_CANCELED -> {
+                    //setting lokasi mati
+                    Toast.makeText(this, getString(R.string.error_permission), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val REQUEST_CHECK_SETTINGS = 0x1
+        const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
     }
 }

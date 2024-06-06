@@ -28,6 +28,7 @@
     <string name="error_password">Password must be 8 character</string>
     <string name="error">Unknown error occurred</string>
     <string name="error_permission">Permission not granted</string>
+    <string name="error_location">You need to enable location setting</string>
 
     <string name="home_title">Find your Happiness with Us!</string>
     <string name="details_title">Details</string>
