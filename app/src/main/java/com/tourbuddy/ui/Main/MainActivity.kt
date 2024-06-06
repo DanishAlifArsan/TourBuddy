@@ -9,6 +9,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -24,7 +25,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsResponse
@@ -50,6 +53,10 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private val list = ArrayList<ListDestinationsItem>()
     private lateinit var destinationViewModel : DestinationViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationRequest : LocationRequest
+    private lateinit var locationCallback : LocationCallback
+    private var currentLocation : Location? = null
+    private var requestingLocationUpdates = false
     private val viewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
@@ -59,6 +66,8 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        updateValuesFromBundle(savedInstanceState)
+
         destinationViewModel = obtainViewModel(this@MainActivity)
 
         rvDestination = binding.rvDestination
@@ -67,6 +76,12 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         createLocationRequest()
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                setupLocation(locationResult.locations[0])
+            }
+        }
 
         destinationViewModel.isLoading.observe(this) {
             showLoading(it)
@@ -88,6 +103,30 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 
         binding.ivProfile.setOnClickListener {
             showMenu(it)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (requestingLocationUpdates) startLocationUpdate()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopLocationUpdates()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY, requestingLocationUpdates)
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun updateValuesFromBundle(savedInstanceState: Bundle?) {
+        savedInstanceState ?: return
+
+        if(savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
+            requestingLocationUpdates = savedInstanceState.getBoolean(
+                REQUESTING_LOCATION_UPDATES_KEY)
         }
     }
 
@@ -177,6 +216,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 else -> {
                     // No location access granted.
                     Toast.makeText(this, getString(R.string.error_permission), Toast.LENGTH_SHORT).show()
+                    requestingLocationUpdates = false
                 }
             }
         }
@@ -188,7 +228,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     }
 
     fun createLocationRequest() {
-        val locationRequest = LocationRequest.Builder(UPDATE_INTERVAL_IN_MILLISECONDS)
+        locationRequest = LocationRequest.Builder(UPDATE_INTERVAL_IN_MILLISECONDS)
             .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
             .build()
 
@@ -215,24 +255,11 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
             checkPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
         ) {
+            requestingLocationUpdates = true
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 Log.d("TAG", "${location?.latitude},${location?.longitude}")
                 if (location != null) {
-                    val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
-                    Log.d("TAG", "getMyLastLocation: ")
-                    geocoder.getAddress(location.latitude, location.longitude) {
-                        if(it != null) {
-                            Log.d("TAG", "getAddress: ")
-                            val currentLocation = it.subAdminArea
-                            val lat = it.latitude.toFloat()
-                            val lon = it.longitude.toFloat()
-                            binding.btnLocation.text = currentLocation
-                            destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->
-                                list.addAll(response.listDestinations)
-                                showRecyclerlist()
-                            }
-                        }
-                    }
+                    setupLocation(location)
                 }
             }
         } else {
@@ -242,6 +269,25 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                     android.Manifest.permission.ACCESS_COARSE_LOCATION
                 )
             )
+        }
+    }
+
+    private fun setupLocation(location : Location) {
+        currentLocation = location
+        val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
+        Log.d("TAG", "getMyLastLocation: ")
+        geocoder.getAddress(location.latitude, location.longitude) {
+            if(it != null) {
+                Log.d("TAG", "getAddress: ")
+                val city = it.subAdminArea
+                val lat = it.latitude.toFloat()
+                val lon = it.longitude.toFloat()
+                binding.btnLocation.text = city
+                destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->
+                    list.addAll(response.listDestinations)
+                    showRecyclerlist()
+                }
+            }
         }
     }
 
@@ -266,6 +312,29 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         }
     }
 
+    private fun startLocationUpdate() {
+        if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    private fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {
@@ -276,7 +345,8 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 }
                 Activity.RESULT_CANCELED -> {
                     //setting lokasi mati
-                    Toast.makeText(this, getString(R.string.error_permission), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.error_location), Toast.LENGTH_SHORT).show()
+                    requestingLocationUpdates = false
                 }
             }
         }
@@ -285,5 +355,6 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     companion object {
         const val REQUEST_CHECK_SETTINGS = 0x1
         const val UPDATE_INTERVAL_IN_MILLISECONDS: Long = 10000
+        const val REQUESTING_LOCATION_UPDATES_KEY = "Request_Location_Update"
     }
 }
