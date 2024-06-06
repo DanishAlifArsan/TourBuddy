@@ -32,7 +32,7 @@ class ReviewRepository private constructor(
             try {
                 val user = runBlocking { userPreference.getSession().first() }
                 val token = user.token
-                _review.postValue(apiService.getAllReview(token, destination_id))
+                _review.postValue(apiService.getAllReview("Bearer $token", destination_id))
                 _isLoading.postValue(false)
                 Log.d("TAG", "getAllReview: success")
             } catch (e : HttpException) {
@@ -50,7 +50,7 @@ class ReviewRepository private constructor(
         try {
             val user = runBlocking { userPreference.getSession().first() }
             val token = user.token
-            val successResponse = ApiConfig.getApiService().addReview(token, review, rating, destination_id)
+            val successResponse = ApiConfig.getApiService().addReview("Bearer $token", review, rating, destination_id)
             emit(ResultState.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()

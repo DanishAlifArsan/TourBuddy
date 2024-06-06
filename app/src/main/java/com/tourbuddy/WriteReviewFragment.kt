@@ -1,6 +1,7 @@
 package com.tourbuddy
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,6 @@ class WriteReviewFragment : Fragment() {
     private lateinit var binding : FragmentWriteReviewBinding
     private var destinationId: String? = null
     private var rating: Int = 0
-    private var review: String = ""
     private lateinit var addReviewViewModel : AddReviewViewModel
 
     override fun onCreateView(
@@ -75,7 +75,7 @@ class WriteReviewFragment : Fragment() {
             rating = 5
         }
 
-        review = binding.edAddReview.text.toString()
+         var review = binding.edAddReview.text.toString()
 
         destinationId = arguments?.getString("destination_id")
 
@@ -83,6 +83,7 @@ class WriteReviewFragment : Fragment() {
 
 
         binding.btnPostReview.setOnClickListener{
+            Log.d("coba", review)
             addReviewViewModel.addReview(review, rating, destinationId).observe(viewLifecycleOwner) { result ->
                 if (result != null){
                     when (result) {

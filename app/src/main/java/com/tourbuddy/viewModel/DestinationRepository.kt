@@ -26,7 +26,7 @@ class DestinationRepository private constructor(
             try {
                 val user = runBlocking { userPreference.getSession().first() }
                 val token = user.token
-                _destination.postValue(apiService.getAllDestinations(token, lat, lon))
+                _destination.postValue(apiService.getAllDestinations("Bearer $token", lat, lon))
                 _isLoading.postValue(false)
                 Log.d("TAG", "getAllDestination: success")
             } catch (e : HttpException) {
