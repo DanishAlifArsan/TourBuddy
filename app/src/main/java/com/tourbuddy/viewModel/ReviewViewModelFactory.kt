@@ -25,6 +25,9 @@ class ReviewViewModelFactory (private val repository: ReviewRepository) : ViewMo
         if (modelClass.isAssignableFrom(ListReviewViewModel::class.java)) {
             return ListReviewViewModel(repository) as T
         }
+        if (modelClass.isAssignableFrom(AddReviewViewModel::class.java)) {
+            return AddReviewViewModel(repository) as T
+        }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }
