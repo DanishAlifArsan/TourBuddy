@@ -1,46 +1,102 @@
-exports.getDestinations = (req, res) => {
-    // Contoh data respons
-    const destinations = [
-        {
-            "destination_id": "story-FvU4u0Vp2S3PMsFg",
-            "destination_name": "Dimas",
-            "description": "Lorem Ipsum",
-            "city": "Malang",
-            "rating": 47,
-            "rating_count": 500,
-            "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1641623658595_dummy-pic.png",
-            "url_maps": "https://maps.google.com/..."
-        }
-    ];
-    res.json({
+const destinations = [
+    {
+        destination_id: "1",
+        destination_name: "Jakarta",
+        description: "Capital city of Indonesia",
+        city: "Jakarta",
+        lat: -6.200000,
+        lon: 106.816666,
+        rating: 5,
+        rating_count: 1000,
+        photoUrl: "https://example.com/photo.jpg",
+        url_maps: "https://maps.google.com/?q=-6.200000,106.816666",
+        reviews: [
+            {
+                reviewer_name: "John Doe",
+                review: "Great place!",
+                rating: 4,
+                createdAt: "2024-06-06"
+            }
+        ]
+    },
+    // Add more destinations as needed
+];
+
+const getDestinationByCoordinates = (req, res) => {
+    const lat = parseFloat(req.query.lat);
+    const lon = parseFloat(req.query.lon);
+
+    if (isNaN(lat) || isNaN(lon)) {
+        return res.status(400).json({
+            error: true,
+            message: "Invalid latitude or longitude"
+        });
+    }
+
+    const destination = destinations.find(dest => dest.lat === lat && dest.lon === lon);
+
+    if (!destination) {
+        return res.status(404).json({
+            error: true,
+            message: "Destination not found"
+        });
+    }
+
+    return res.status(200).json({
         error: false,
-        message: "Destinations fetched successfully",
-        listDestinations: destinations
+        message: "Destination fetched successfully",
+        listDestinations: [destination]
     });
 };
 
-exports.getReviews = (req, res) => {
-    // Contoh data respons
-    const reviews = [
-        {
-            "reviewer_name": "Dimas",
-            "review": "Lorem Ipsum",
-            "rating": 4,
-            "createdAt": "22 Juni 2024"
-        }
-    ];
-    res.json({
+const getReviewsByDestinationId = (req, res) => {
+    const destination_id = req.body.destination_id;
+
+    const destination = destinations.find(dest => dest.destination_id === destination_id);
+
+    if (!destination) {
+        return res.status(404).json({
+            error: true,
+            message: "Destination not found"
+        });
+    }
+
+    return res.status(200).json({
         error: false,
         message: "Reviews fetched successfully",
-        listReviews: reviews
+        listReviews: destination.reviews
     });
 };
 
-exports.addReview = (req, res) => {
-    const { review, rating, destination_id } = req.body;
-    // Logika untuk menambahkan review baru
-    res.json({
+const addReview = (req, res) => {
+    const { destination_id, review, rating } = req.body;
+
+    const destination = destinations.find(dest => dest.destination_id === destination_id);
+
+    if (!destination) {
+        return res.status(404).json({
+            error: true,
+            message: "Destination not found"
+        });
+    }
+
+    const newReview = {
+        reviewer_name: "Anonymous",
+        review: review,
+        rating: rating,
+        createdAt: new Date().toISOString()
+    };
+
+    destination.reviews.push(newReview);
+
+    return res.status(201).json({
         error: false,
         message: "Review added successfully"
     });
+};
+
+module.exports = {
+    getDestinationByCoordinates,
+    getReviewsByDestinationId,
+    addReview
 };
