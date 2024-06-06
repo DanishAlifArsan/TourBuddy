@@ -23,15 +23,15 @@ object Injection {
 
     fun provideDestinationRepository(context: Context) : DestinationRepository {
         val pref = UserPreference.getInstance(context.dataStore)
-        val token = runBlocking { pref.getSession().first().token }
-        val apiService = ApiConfig.getApiService(token)
-        return DestinationRepository.getInstance(apiService, CoroutineScope(Dispatchers.IO))
+//        val token = runBlocking { pref.getSession().first().token }
+        val apiService = ApiConfig.getApiService()
+        return DestinationRepository.getInstance(pref, apiService, CoroutineScope(Dispatchers.IO))
     }
 
     fun provideReviewRepository(context: Context) : ReviewRepository {
         val pref = UserPreference.getInstance(context.dataStore)
-        val token = runBlocking { pref.getSession().first().token }
-        val apiService = ApiConfig.getApiService(token)
-        return ReviewRepository.getInstance(apiService, CoroutineScope(Dispatchers.IO))
+//        val token = runBlocking { pref.getSession().first().token }
+        val apiService = ApiConfig.getApiService()
+        return ReviewRepository.getInstance(pref, apiService, CoroutineScope(Dispatchers.IO))
     }
 }

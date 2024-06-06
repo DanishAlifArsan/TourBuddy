@@ -5,11 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.tourbuddy.api.ApiService
 import com.tourbuddy.api.DestinationResponse
+import com.tourbuddy.pref.UserPreference
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 
 class DestinationRepository private constructor(
+    private val userPreference: UserPreference,
     private val apiService: ApiService,
     private val scope : CoroutineScope
 ) {
@@ -20,7 +24,9 @@ class DestinationRepository private constructor(
         _isLoading.value = true
         scope.launch {
             try {
-                _destination.postValue(apiService.getAllDestinations(lat, lon))
+                val user = runBlocking { userPreference.getSession().first() }
+                val token = user.token
+                _destination.postValue(apiService.getAllDestinations(token, lat, lon))
                 _isLoading.postValue(false)
                 Log.d("TAG", "getAllDestination: success")
             } catch (e : HttpException) {
@@ -37,11 +43,12 @@ class DestinationRepository private constructor(
         @Volatile
         private var instance: DestinationRepository? = null
         fun getInstance(
+            userPreference: UserPreference,
             apiService: ApiService,
             scope : CoroutineScope
         ): DestinationRepository =
             instance ?: synchronized(this) {
-                instance ?: DestinationRepository(apiService, scope)
+                instance ?: DestinationRepository(userPreference, apiService, scope)
             }.also { instance = it }
     }
 }

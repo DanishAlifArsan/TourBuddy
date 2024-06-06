@@ -5,11 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.tourbuddy.api.ApiService
 import com.tourbuddy.api.ListReviewResponse
+import com.tourbuddy.pref.UserPreference
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 
 class ReviewRepository private constructor(
+    private val userPreference: UserPreference,
     private val apiService: ApiService,
     private val scope : CoroutineScope
 ) {
@@ -20,7 +24,9 @@ class ReviewRepository private constructor(
         _isLoading.value = true
         scope.launch {
             try {
-                _review.postValue(apiService.getAllReview(destination_id))
+                val user = runBlocking { userPreference.getSession().first() }
+                val token = user.token
+                _review.postValue(apiService.getAllReview(token, destination_id))
                 _isLoading.postValue(false)
                 Log.d("TAG", "getAllReview: success")
             } catch (e : HttpException) {
@@ -37,11 +43,12 @@ class ReviewRepository private constructor(
         @Volatile
         private var instance: ReviewRepository? = null
         fun getInstance(
+            userPreference: UserPreference,
             apiService: ApiService,
             scope : CoroutineScope
         ): ReviewRepository =
             instance ?: synchronized(this) {
-                instance ?: ReviewRepository(apiService, scope)
+                instance ?: ReviewRepository(userPreference, apiService, scope)
             }.also { instance = it }
     }
 }
