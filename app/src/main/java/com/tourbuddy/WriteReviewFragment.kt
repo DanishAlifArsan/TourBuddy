@@ -75,15 +75,13 @@ class WriteReviewFragment : Fragment() {
             rating = 5
         }
 
-         var review = binding.edAddReview.text.toString()
-
         destinationId = arguments?.getString("destination_id")
 
         addReviewViewModel = obtainViewModel(activity as AppCompatActivity)
 
 
         binding.btnPostReview.setOnClickListener{
-            Log.d("coba", review)
+            var review = binding.edAddReview.text.toString()
             addReviewViewModel.addReview(review, rating, destinationId).observe(viewLifecycleOwner) { result ->
                 if (result != null){
                     when (result) {

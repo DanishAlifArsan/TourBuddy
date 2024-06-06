@@ -45,7 +45,7 @@ class ReviewRepository private constructor(
         return _review
     }
 
-    fun addReview(destination_id: String?, review: String, rating: Int) = liveData {
+    fun addReview(review: String, rating: Int, destination_id: String?,) = liveData {
         emit(ResultState.Loading)
         try {
             val user = runBlocking { userPreference.getSession().first() }
