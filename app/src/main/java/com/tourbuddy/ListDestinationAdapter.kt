@@ -4,6 +4,8 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -13,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.tourbuddy.api.ListDestinationsItem
 import com.tourbuddy.databinding.DestinationListItemBinding
 
-class ListDestinationAdapter: ListAdapter<ListDestinationsItem, ListDestinationAdapter.ListViewHolder>(DIFF_CALLBACK){
+class ListDestinationAdapter(private val destinationList : List<ListDestinationsItem>) : ListAdapter<ListDestinationsItem, ListDestinationAdapter.ListViewHolder>(DIFF_CALLBACK), Filterable{
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -26,11 +28,6 @@ class ListDestinationAdapter: ListAdapter<ListDestinationsItem, ListDestinationA
         val destination = getItem(position)
         holder.bind(holder, destination)
     }
-
-//    fun setFilteredList(filteredDestination : List<ListDestinationsItem>) {
-//        listDestination = filteredDestination
-//        notifyDataSetChanged()
-//    }
 
     class ListViewHolder (val binding: DestinationListItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(holder : ListViewHolder, destination : ListDestinationsItem) {
@@ -71,5 +68,30 @@ class ListDestinationAdapter: ListAdapter<ListDestinationsItem, ListDestinationA
                 return oldItem == newItem
             }
         }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                return FilterResults().apply {
+                    values = if (constraint.isNullOrEmpty())
+                        destinationList
+                    else onFilter(destinationList, constraint.toString())
+                }
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, result: FilterResults?) {
+                submitList(result?.values as? List<ListDestinationsItem>)
+            }
+        }
+    }
+
+    fun onFilter(list : List<ListDestinationsItem>, constraint : String) : List<ListDestinationsItem> {
+        val filteredList = list.filter {
+            it.destinationName.lowercase().contains(constraint.lowercase()) ||
+                    it.city.lowercase().contains(constraint.lowercase())
+        }
+        return filteredList
     }
 }

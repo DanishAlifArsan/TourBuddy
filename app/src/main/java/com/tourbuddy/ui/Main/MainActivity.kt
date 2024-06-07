@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
-                    filterList(newText.toString())
+                    listDestinationAdapter.filter.filter(newText)
                     return true
                 }
             })
@@ -140,19 +140,6 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
             listDestination.add(destination)
         }
         return listDestination
-    }
-
-    private fun filterList(filter : String) {
-        val filteredList = ArrayList<ListDestinationsItem>()
-        for (item in list) {
-            if (item.destinationName.lowercase().contains(filter.lowercase()) ||
-                item.city.lowercase().contains(filter.lowercase())) {
-                filteredList.add(item)
-            }
-        }
-        if (filteredList.isNotEmpty()) {
-//            listDestinationAdapter.setFilteredList(filteredList)
-        }
     }
 
     fun showMenu(v: View) {
@@ -274,14 +261,12 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
             if(it != null) {
                 Log.d("TAG", "getAddress: ")
                 val city = it.subAdminArea
-//                val lat = it.latitude.toFloat()
-//                val lon = it.longitude.toFloat()
-                val lat = -6.2f
-                val lon = 106.816666f
+                val lat = it.latitude.toFloat()
+                val lon = it.longitude.toFloat()
                 binding.btnLocation.text = city
                 binding.rvDestination.layoutManager = LinearLayoutManager(this)
                 destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->
-                    listDestinationAdapter = ListDestinationAdapter()
+                    listDestinationAdapter = ListDestinationAdapter(response.listDestinations)
                     listDestinationAdapter.submitList(response.listDestinations)
                     rvDestination.adapter = listDestinationAdapter
                 }
