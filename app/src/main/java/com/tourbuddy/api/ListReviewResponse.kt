@@ -25,6 +25,6 @@ data class ListReviewsItem(
 	@field:SerializedName("review")
 	val review: String,
 
-	@field:SerializedName("“rating”")
+	@field:SerializedName("rating")
 	val rating: Int
 )
