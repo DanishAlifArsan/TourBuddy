@@ -33,6 +33,7 @@ class ReviewFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var listReviewViewModel : ListReviewViewModel
     private var destinationId: String? = null
+    private lateinit var listReviewAdapter : ListReviewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +48,7 @@ class ReviewFragment : Fragment() {
         destinationId = arguments?.getString("destination_id")
 
         rvReview = binding.rvDestination
+        rvReview.layoutManager = LinearLayoutManager(requireContext())
         rvReview.setHasFixedSize(true)
 
         listReviewViewModel = obtainViewModel(activity as AppCompatActivity)
@@ -54,9 +56,12 @@ class ReviewFragment : Fragment() {
             showLoading(it)
         }
 
+
         listReviewViewModel.getAllReview(destinationId).observe(viewLifecycleOwner) {response ->
-            list.addAll(response.listReviews)
-            showRecyclerList()
+
+            listReviewAdapter = ListReviewAdapter()
+            listReviewAdapter.submitList(response.listReviews)
+            rvReview.adapter = listReviewAdapter
         }
 
         binding.btnWriteReview.setOnClickListener{
@@ -90,12 +95,6 @@ class ReviewFragment : Fragment() {
         }
         dataPhoto.recycle()
         return listReview
-    }
-
-    private fun showRecyclerList() {
-        rvReview.layoutManager = LinearLayoutManager(requireContext())
-        val listReviewAdapter = ListReviewAdapter(list)
-        rvReview.adapter = listReviewAdapter
     }
 
     private fun obtainViewModel(activity: AppCompatActivity) : ListReviewViewModel {

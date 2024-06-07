@@ -7,83 +7,89 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.tourbuddy.api.ListReviewResponse
+import com.tourbuddy.api.ListDestinationsItem
 import com.tourbuddy.api.ListReviewsItem
-import com.tourbuddy.data.Review
 
-class ListReviewAdapter(private val listReview: ArrayList<ListReviewsItem>) : RecyclerView.Adapter<ListReviewAdapter.ListViewHolder>(){
+import com.tourbuddy.databinding.ReviewListItemBinding
+
+class ListReviewAdapter: ListAdapter<ListReviewsItem, ListReviewAdapter.ListViewHolder>(DIFF_CALLBACK){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ListViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.review_list_item, parent, false)
-        return ListViewHolder(view)
+        val binding = ReviewListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ListViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = listReview.size
-
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (date, name , review, rating)= listReview[position]
+        val review = getItem(position)
+        holder.bind(holder, review)
+    }
 
-        holder.imgPhoto.setImageResource(R.drawable.ic_face)
-        holder.tvName.text = name
-        holder.tvReview.text = review
-        holder.tvRating.text = rating.toString()
-        holder.tvDate.text = date
+    class ListViewHolder(val binding: ReviewListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind (holder : ListViewHolder, review : ListReviewsItem){
+            binding.tvName.text = review.reviewerName
+            binding.tvDate.text = review.createdAt
+            binding.tvReview.text = review.review
+            binding.tvRating.text = review.rating.toString()
+            binding.ivItemPhoto.setImageResource(R.drawable.ic_face)
 
-        val filledStarResId = R.drawable.star_enabled
-        val emptyStarResId = R.drawable.star_disable
-        when(rating){
+            val filledStarResId = R.drawable.star_enabled
+            val unfilledStarResId = R.drawable.star_disable
+
+
+            when(review.rating){
             5 -> {
-                holder.ivStar1.setImageResource(filledStarResId)
-                holder.ivStar2.setImageResource(filledStarResId)
-                holder.ivStar3.setImageResource(filledStarResId)
-                holder.ivStar4.setImageResource(filledStarResId)
-                holder.ivStar5.setImageResource(filledStarResId)
+                binding.star1.setImageResource(filledStarResId)
+                binding.star2.setImageResource(filledStarResId)
+                binding.star3.setImageResource(filledStarResId)
+                binding.star4.setImageResource(filledStarResId)
+                binding.star5.setImageResource(filledStarResId)
             }
             4 -> {
-                holder.ivStar1.setImageResource(filledStarResId)
-                holder.ivStar2.setImageResource(filledStarResId)
-                holder.ivStar3.setImageResource(filledStarResId)
-                holder.ivStar4.setImageResource(filledStarResId)
-                holder.ivStar5.setImageResource(emptyStarResId)
+                binding.star1.setImageResource(filledStarResId)
+                binding.star2.setImageResource(filledStarResId)
+                binding.star3.setImageResource(filledStarResId)
+                binding.star4.setImageResource(filledStarResId)
+                binding.star5.setImageResource(unfilledStarResId)
             }
             3 -> {
-                holder.ivStar1.setImageResource(filledStarResId)
-                holder.ivStar2.setImageResource(filledStarResId)
-                holder.ivStar3.setImageResource(filledStarResId)
-                holder.ivStar4.setImageResource(emptyStarResId)
-                holder.ivStar5.setImageResource(emptyStarResId)
+                binding.star1.setImageResource(filledStarResId)
+                binding.star2.setImageResource(filledStarResId)
+                binding.star3.setImageResource(filledStarResId)
+                binding.star4.setImageResource(unfilledStarResId)
+                binding.star5.setImageResource(unfilledStarResId)
             }
             2 -> {
-                holder.ivStar1.setImageResource(filledStarResId)
-                holder.ivStar2.setImageResource(filledStarResId)
-                holder.ivStar3.setImageResource(emptyStarResId)
-                holder.ivStar4.setImageResource(emptyStarResId)
-                holder.ivStar5.setImageResource(emptyStarResId)
+                binding.star1.setImageResource(filledStarResId)
+                binding.star2.setImageResource(filledStarResId)
+                binding.star3.setImageResource(unfilledStarResId)
+                binding.star4.setImageResource(unfilledStarResId)
+                binding.star5.setImageResource(unfilledStarResId)
             }
             1 -> {
-                holder.ivStar1.setImageResource(filledStarResId)
-                holder.ivStar2.setImageResource(emptyStarResId)
-                holder.ivStar3.setImageResource(emptyStarResId)
-                holder.ivStar4.setImageResource(emptyStarResId)
-                holder.ivStar5.setImageResource(emptyStarResId)
+                binding.star1.setImageResource(unfilledStarResId)
+                binding.star2.setImageResource(unfilledStarResId)
+                binding.star3.setImageResource(unfilledStarResId)
+                binding.star4.setImageResource(unfilledStarResId)
+                binding.star5.setImageResource(unfilledStarResId)
+            }
             }
         }
     }
 
-    class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imgPhoto: ImageView = itemView.findViewById(R.id.iv_item_photo)
-        val tvName: TextView = itemView.findViewById(R.id.tv_name)
-        val tvReview: TextView = itemView.findViewById(R.id.tv_review)
-        val tvRating: TextView = itemView.findViewById(R.id.tv_rating)
-        val tvDate: TextView = itemView.findViewById(R.id.tv_date)
-        val ivStar1: ImageView = itemView.findViewById(R.id.star1)
-        val ivStar2: ImageView = itemView.findViewById(R.id.star2)
-        val ivStar3: ImageView = itemView.findViewById(R.id.star3)
-        val ivStar4: ImageView = itemView.findViewById(R.id.star4)
-        val ivStar5: ImageView = itemView.findViewById(R.id.star5)
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListReviewsItem>() {
+            override fun areItemsTheSame(oldItem: ListReviewsItem, newItem: ListReviewsItem): Boolean {
+                return oldItem == newItem
+            }
+            override fun areContentsTheSame(oldItem: ListReviewsItem, newItem: ListReviewsItem): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 }
