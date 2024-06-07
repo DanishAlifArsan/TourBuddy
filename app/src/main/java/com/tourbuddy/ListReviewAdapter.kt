@@ -15,6 +15,8 @@ import com.tourbuddy.api.ListDestinationsItem
 import com.tourbuddy.api.ListReviewsItem
 
 import com.tourbuddy.databinding.ReviewListItemBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ListReviewAdapter: ListAdapter<ListReviewsItem, ListReviewAdapter.ListViewHolder>(DIFF_CALLBACK){
     override fun onCreateViewHolder(
@@ -33,7 +35,6 @@ class ListReviewAdapter: ListAdapter<ListReviewsItem, ListReviewAdapter.ListView
     class ListViewHolder(val binding: ReviewListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (holder : ListViewHolder, review : ListReviewsItem){
             binding.tvName.text = review.reviewerName
-            binding.tvDate.text = review.createdAt
             binding.tvReview.text = review.review
             binding.tvRating.text = review.rating.toString()
             binding.ivItemPhoto.setImageResource(R.drawable.ic_face)
@@ -79,6 +80,14 @@ class ListReviewAdapter: ListAdapter<ListReviewsItem, ListReviewAdapter.ListView
                 binding.star5.setImageResource(unfilledStarResId)
             }
             }
+            val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val date = parser.parse(review.createdAt)
+            val formattedDate = dateFormat.format(date).toString()
+            binding.tvDate.text = formattedDate
+
+            Log.d("TAG 1", review.createdAt)
+            Log.d("TAG 2", date.toString())
         }
     }
 

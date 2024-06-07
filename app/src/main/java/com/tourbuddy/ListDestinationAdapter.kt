@@ -15,7 +15,8 @@ import com.bumptech.glide.Glide
 import com.tourbuddy.api.ListDestinationsItem
 import com.tourbuddy.databinding.DestinationListItemBinding
 
-class ListDestinationAdapter(private val destinationList : List<ListDestinationsItem>) : ListAdapter<ListDestinationsItem, ListDestinationAdapter.ListViewHolder>(DIFF_CALLBACK), Filterable{
+class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinationAdapter.ListViewHolder>(DIFF_CALLBACK), Filterable{
+    private var destinationList : List<ListDestinationsItem> = listOf()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -93,5 +94,10 @@ class ListDestinationAdapter(private val destinationList : List<ListDestinations
                     it.city.lowercase().contains(constraint.lowercase())
         }
         return filteredList
+    }
+
+    fun addToList(_destinationList : List<ListDestinationsItem>) {
+        destinationList = _destinationList
+        submitList(destinationList)
     }
 }

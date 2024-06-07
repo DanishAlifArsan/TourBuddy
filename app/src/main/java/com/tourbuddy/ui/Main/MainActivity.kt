@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         updateValuesFromBundle(savedInstanceState)
 
         destinationViewModel = obtainViewModel(this@MainActivity)
+        listDestinationAdapter = ListDestinationAdapter()
 
         rvDestination = binding.rvDestination
         rvDestination.setHasFixedSize(true)
@@ -261,13 +262,14 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
             if(it != null) {
                 Log.d("TAG", "getAddress: ")
                 val city = it.subAdminArea
-                val lat = it.latitude.toFloat()
-                val lon = it.longitude.toFloat()
+//                val lat = it.latitude.toFloat()
+//                val lon = it.longitude.toFloat()
+                val lat = -6.2f
+                val lon = 106.816666f
                 binding.btnLocation.text = city
                 binding.rvDestination.layoutManager = LinearLayoutManager(this)
                 destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->
-                    listDestinationAdapter = ListDestinationAdapter(response.listDestinations)
-                    listDestinationAdapter.submitList(response.listDestinations)
+                    listDestinationAdapter.addToList(response.listDestinations)
                     rvDestination.adapter = listDestinationAdapter
                 }
             }

@@ -60,7 +60,7 @@ class ReviewFragment : Fragment() {
         listReviewViewModel.getAllReview(destinationId).observe(viewLifecycleOwner) {response ->
 
             listReviewAdapter = ListReviewAdapter()
-            listReviewAdapter.submitList(response.listReviews)
+            listReviewAdapter.submitList(response.listReviews.sortedByDescending { it.createdAt})
             rvReview.adapter = listReviewAdapter
         }
 
