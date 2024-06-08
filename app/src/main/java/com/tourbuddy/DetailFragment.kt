@@ -1,5 +1,7 @@
 package com.tourbuddy
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -38,6 +40,15 @@ class DetailFragment : Fragment() {
             binding.tvRating.text = destination?.rating.toString()
             binding.tvReviewCount.text = getString(R.string.hint_review_count, destination?.ratingCount.toString())
             binding.tvDescription.text = destination?.description
+
+            val locationUrl = destination?.urlMaps
+
+            binding.layoutLocation.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse(locationUrl)
+                }
+                startActivity(intent)
+            }
 
             binding.btnReview.setOnClickListener{
                 val reviewFragment = ReviewFragment()

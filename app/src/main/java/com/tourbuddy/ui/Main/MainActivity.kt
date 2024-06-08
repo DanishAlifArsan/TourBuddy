@@ -283,7 +283,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         address: (Address?) -> Unit
     ) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
             getFromLocation(latitude, longitude, 1) {
                 address(it.firstOrNull())
             }
