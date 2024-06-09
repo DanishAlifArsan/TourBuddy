@@ -1,28 +1,10 @@
-const destinations = [
-    {
-        destination_id: "1",
-        destination_name: "Jakarta",
-        description: "Capital city of Indonesia",
-        city: "Jakarta",
-        lat: -6.200000,
-        lon: 106.816666,
-        rating: 5,
-        rating_count: 1000,
-        photoUrl: "https://example.com/photo.jpg",
-        url_maps: "https://maps.google.com/?q=-6.200000,106.816666",
-        reviews: [
-            {
-                reviewer_name: "John Doe",
-                review: "Great place!",
-                rating: 4,
-                createdAt: "2024-06-06"
-            }
-        ]
-    },
-    // Add more destinations as needed
-];
+const { Firestore } = require('@google-cloud/firestore');
+const { updateDestinations } = require('../services/importService');
 
-const getDestinationByCoordinates = (req, res) => {
+// Inisialisasi Firestore
+const firestore = new Firestore();
+
+const getDestinationByCoordinates = async (req, res) => {
     const lat = parseFloat(req.query.lat);
     const lon = parseFloat(req.query.lon);
 
@@ -33,70 +15,175 @@ const getDestinationByCoordinates = (req, res) => {
         });
     }
 
-    const destination = destinations.find(dest => dest.lat === lat && dest.lon === lon);
+    // Ambil data dari Firestore
+    try {
+        const querySnapshot = await firestore.collection('destinations')
+            .where('lat', '==', lat)
+            .where('lon', '==', lon)
+            .get();
 
-    if (!destination) {
-        return res.status(404).json({
+        if (querySnapshot.empty) {
+            return res.status(404).json({
+                error: true,
+                message: "Destination not found"
+            });
+        }
+
+        const destination = querySnapshot.docs[0].data();
+
+        return res.status(200).json({
+            error: false,
+            message: "Destination fetched successfully",
+            listDestinations: [destination]
+        });
+    } catch (error) {
+        console.error("Error getting destination from Firestore:", error);
+        return res.status(500).json({
             error: true,
-            message: "Destination not found"
+            message: "Failed to fetch destination from Firestore"
+        });
+    }
+};
+
+const getReviewsByDestinationId = async (req, res) => {
+    const destination_id = req.query.destination_id;
+
+    if (!destination_id) {
+        console.log("No destination_id in request body"); // Log jika destination_id tidak ada
+        return res.status(400).json({
+            error: true,
+            message: "destination_id is required"
         });
     }
 
-    return res.status(200).json({
-        error: false,
-        message: "Destination fetched successfully",
-        listDestinations: [destination]
-    });
-};
+    console.log("Destination ID:", destination_id); // Log untuk memeriksa destination_id
 
-const getReviewsByDestinationId = (req, res) => {
-    const destination_id = req.body.destination_id;
+    try {
+        const destinationDocRef = firestore.collection('destinations').doc(destination_id);
+        const destinationDoc = await destinationDocRef.get();
+        
+        if (!destinationDoc.exists) {
+            console.log("Destination not found for ID:", destination_id); // Log jika dokumen tidak ditemukan
+            return res.status(404).json({
+                error: true,
+                message: "Destination not found"
+            });
+        }
 
-    const destination = destinations.find(dest => dest.destination_id === destination_id);
+        const destination = destinationDoc.data(); // Mengakses data dokumen dengan benar
+        console.log("Destination Data:", destination); // Log untuk memeriksa data dokumen
 
-    if (!destination) {
-        return res.status(404).json({
+        if (!destination.reviews || destination.reviews.length === 0) {
+            console.log("No reviews found in destination data"); // Log jika field reviews tidak ada
+            return res.status(404).json({
+                error: true,
+                message: "No reviews found for this destination"
+            });
+        }
+
+        // Menghitung rata-rata rating dari semua reviews
+        let totalRating = 0;
+        destination.reviews.forEach(review => {
+            totalRating += review.rating;
+        });
+        const averageRating = totalRating / destination.reviews.length;
+
+        // Memperbarui rating destinasi dengan rata-rata rating baru
+        await destinationDocRef.update({
+            rating: Math.round(averageRating) // Memastikan rating berupa bilangan bulat
+        });
+
+        return res.status(200).json({
+            error: false,
+            message: "Reviews fetched successfully",
+            listReviews: destination.reviews,
+            averageRating: Math.round(averageRating) // Menyertakan rata-rata rating dalam respons
+        });
+    } catch (error) {
+        console.error("Error fetching reviews from Firestore:", error); // Log untuk error
+        return res.status(500).json({
             error: true,
-            message: "Destination not found"
+            message: "Failed to fetch reviews from Firestore"
         });
     }
-
-    return res.status(200).json({
-        error: false,
-        message: "Reviews fetched successfully",
-        listReviews: destination.reviews
-    });
 };
 
-const addReview = (req, res) => {
+
+
+const addReview = async (req, res) => {
+    console.log("Memulai addReview, req.user:", req.user); // Tambahkan log untuk memeriksa req.user
+
     const { destination_id, review, rating } = req.body;
 
-    const destination = destinations.find(dest => dest.destination_id === destination_id);
-
-    if (!destination) {
-        return res.status(404).json({
+    // Validasi dan konversi rating
+    const parsedRating = parseInt(rating, 10);
+    if (isNaN(parsedRating) || parsedRating < 1 || parsedRating > 5) {
+        return res.status(400).json({
             error: true,
-            message: "Destination not found"
+            message: "Invalid rating. Rating should be an integer between 1 and 5."
         });
     }
 
-    const newReview = {
-        reviewer_name: "Anonymous",
-        review: review,
-        rating: rating,
-        createdAt: new Date().toISOString()
-    };
+    try {
+        const destinationDoc = await firestore.collection('destinations').doc(destination_id).get();
+        
+        if (!destinationDoc.exists) {
+            return res.status(404).json({
+                error: true,
+                message: "Destination not found"
+            });
+        }
 
-    destination.reviews.push(newReview);
+        const destinationData = destinationDoc.data();
 
-    return res.status(201).json({
-        error: false,
-        message: "Review added successfully"
-    });
+        // Validasi req.user dan req.user.name
+        const reviewer_name = req.user && req.user.name ? req.user.name : "Anonymous";
+        console.log("Reviewer Name:", reviewer_name); // Tambahkan log untuk memeriksa reviewer_name
+
+        const newReview = {
+            reviewer_name: reviewer_name,
+            review: review,
+            rating: parsedRating,
+            createdAt: new Date().toISOString()
+        };
+
+        // Tambahkan review ke destinasi
+        if (!destinationData.reviews) {
+            destinationData.reviews = [];
+        }
+        destinationData.reviews.push(newReview);
+
+        // Simpan data ke Firestore
+        await firestore.collection('destinations').doc(destination_id).set(destinationData, { merge: true });
+        
+        console.log("Review successfully added to Firestore");
+        return res.status(201).json({
+            error: false,
+            message: "Review added successfully"
+        });
+    } catch (error) {
+        console.error("Error adding review to Firestore:", error);
+        return res.status(500).json({
+            error: true,
+            message: "Failed to add review to Firestore"
+        });
+    }
 };
+
+const importDestinations = async (req, res) => {
+    try {
+        await updateDestinations();
+        res.status(200).json({ error: false, message: "Data imported successfully" });
+    } catch (error) {
+        res.status(500).json({ error: true, message: "Failed to import data" });
+    }
+};
+
 
 module.exports = {
     getDestinationByCoordinates,
     getReviewsByDestinationId,
-    addReview
+    addReview,
+    importDestinations
 };
+    
