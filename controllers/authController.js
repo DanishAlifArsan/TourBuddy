@@ -1,9 +1,9 @@
 const argon2 = require('argon2');
-const { admin, db } = require('../config/firebaseConfig');
+const { admin, db, bucket } = require('../config/firebaseConfig');
 const generateToken = require('../utils/generateToken');
 const { validationResult } = require('express-validator');
 
-
+// Function to handle validation errors
 const handleValidationErrors = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -12,13 +12,14 @@ const handleValidationErrors = (req, res) => {
             error: true,
             message: `"${firstError.param}" ${firstError.msg}`
         });
-    } return null;
+    }
+    return null; // return null if no validation errors
 };
 
 const signUp = async (req, res) => {
-
+    // Handle validation errors
     const validationError = handleValidationErrors(req, res);
-    if (validationError) return validationError;
+    if (validationError) return validationError; // Return validation error if exists
 
     const { username, email, password } = req.body;
 
@@ -29,7 +30,7 @@ const signUp = async (req, res) => {
 
         if (userDoc.exists) {
             console.log('Pengguna sudah ada.');
-            return res.status(400).json({ error: true, message: 'Email already exist' });
+            return res.status(400).json({ error: true, message: 'Email sudah ada' });
         }
 
         console.log('Meng-hash password...');
@@ -50,14 +51,21 @@ const signUp = async (req, res) => {
             uid: userRecord.uid
         });
 
-        const token = generateToken(email);
+        // Buat objek user untuk generateToken
+        const user = {
+            id: userRecord.uid,
+            name: username,
+            email: email
+        };
+
+        const token = generateToken(user);
         console.log('Pengguna berhasil dibuat.');
         return res.status(201).json({
             error: false,
-            message: 'User Created',
+            message: 'Pengguna dibuat',
             username,
             token,
-            id: email
+            id: userRecord.uid
         });
     } catch (error) {
         console.error('Kesalahan selama pendaftaran:', error);  // Logging error
@@ -66,9 +74,9 @@ const signUp = async (req, res) => {
 };
 
 const login = async (req, res) => {
-
+    // Handle validation errors
     const validationError = handleValidationErrors(req, res);
-    if (validationError) return validationError;
+    if (validationError) return validationError; // Return validation error if exists
 
     const { email, password } = req.body;
 
@@ -79,7 +87,7 @@ const login = async (req, res) => {
 
         if (!userDoc.exists) {
             console.log('Pengguna tidak ditemukan.');
-            return res.status(400).json({ error: true, message: 'invalid Credentials' });
+            return res.status(400).json({ error: true, message: 'Kredensial tidak valid' });
         }
 
         const userData = userDoc.data();
@@ -88,17 +96,24 @@ const login = async (req, res) => {
 
         if (!isMatch) {
             console.log('Password tidak cocok.');
-            return res.status(400).json({ error: true, message: 'invalid Credentials' });
+            return res.status(400).json({ error: true, message: 'Kredensial tidak valid' });
         }
 
-        const token = generateToken(email);
+        // Buat objek user untuk generateToken
+        const user = {
+            id: userData.uid, // pastikan ini sesuai dengan field yang ada di Firestore
+            name: userData.username,
+            email: userData.email
+        };
+
+        const token = generateToken(user);
         console.log('Pengguna berhasil masuk.');
         return res.status(200).json({
             error: false,
             message: 'Berhasil',
             loginResult: {
-                userId: email,
-                name: userData.username,
+                userId: user.id,
+                name: user.name,
                 token
             }
         });
