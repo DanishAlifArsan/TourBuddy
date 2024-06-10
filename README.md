@@ -8,7 +8,7 @@ https://auth-service-jcoc7wc2ka-et.a.run.app
 
 URL:
 
-GET /api/destination
-GET /api/review
-POST /api/addreview
-GET /api/nearby-destinations
+- GET /api/destination
+- GET /api/review
+- POST /api/addreview
+- GET /api/nearby-destinations
