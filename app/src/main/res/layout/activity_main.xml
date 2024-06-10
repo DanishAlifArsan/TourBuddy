@@ -10,24 +10,23 @@
         android:id="@+id/iv_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_location"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/btn_location"
         app:srcCompat="@drawable/user_alt" />
 
     <Button
         android:id="@+id/btn_location"
         style="@style/button.small"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:drawableStart="@drawable/location_blue"
         android:text="@string/hint_location"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
-        style="@style/text.title.start"
+        style="@style/text.title1.start"
         android:layout_marginTop="28dp"
         android:text="@string/home_title"
         app:layout_constraintEnd_toEndOf="parent"

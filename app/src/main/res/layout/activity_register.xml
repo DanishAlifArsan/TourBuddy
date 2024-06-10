@@ -83,7 +83,7 @@
 
     <TextView
         android:id="@+id/textView4"
-        style="@style/text.title.center"
+        style="@style/text.title1.center"
         android:layout_marginTop="120dp"
         android:text="@string/signup_title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -114,6 +114,7 @@
         android:id="@+id/textView6"
         style="@style/text.normal.center"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/hint_signin"
         app:layout_constraintEnd_toStartOf="@+id/btn_singin"
         app:layout_constraintHorizontal_bias="0.5"

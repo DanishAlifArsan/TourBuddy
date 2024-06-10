@@ -73,7 +73,7 @@ class ListReviewAdapter: ListAdapter<ListReviewsItem, ListReviewAdapter.ListView
                 binding.star5.setImageResource(unfilledStarResId)
             }
             1 -> {
-                binding.star1.setImageResource(filledStarResId)
+                binding.star1.setImageResource(unfilledStarResId)
                 binding.star2.setImageResource(unfilledStarResId)
                 binding.star3.setImageResource(unfilledStarResId)
                 binding.star4.setImageResource(unfilledStarResId)
@@ -85,9 +85,6 @@ class ListReviewAdapter: ListAdapter<ListReviewsItem, ListReviewAdapter.ListView
             val date = parser.parse(review.createdAt)
             val formattedDate = dateFormat.format(date).toString()
             binding.tvDate.text = formattedDate
-
-            Log.d("TAG 1", review.createdAt)
-            Log.d("TAG 2", date.toString())
         }
     }
 

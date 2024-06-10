@@ -17,6 +17,7 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -160,9 +161,20 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 true
             }
             R.id.action_signout -> {
-                viewModel.logout()
-                startActivity(Intent(this@MainActivity, OnboardingActivity::class.java))
-                finish()
+                AlertDialog.Builder(this).apply {
+                    setTitle(getString(R.string.signin))
+                    setMessage(getString(R.string.hint_signout))
+                    setPositiveButton(getString(R.string.signout)){ _, _ ->
+                        viewModel.logout()
+                        startActivity(Intent(this@MainActivity, OnboardingActivity::class.java))
+                        finish()
+                    }
+                    setNegativeButton(getString(R.string.cancel)) { _,_ ->
+                        setCancelable(true)
+                    }
+                    create()
+                    show()
+                }
                 true
             }
             else -> false
@@ -264,8 +276,8 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 val city = it.subAdminArea
 //                val lat = it.latitude.toFloat()
 //                val lon = it.longitude.toFloat()
-                val lat = -6.2f
-                val lon = 106.816666f
+                val lat = -6.1753924f
+                val lon = 106.8271528f
                 binding.btnLocation.text = city
                 binding.rvDestination.layoutManager = LinearLayoutManager(this)
                 destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->

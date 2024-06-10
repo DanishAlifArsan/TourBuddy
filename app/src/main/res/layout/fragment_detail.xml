@@ -2,14 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
+    style="@style/layout"
     tools:context=".DetailFragment">
 
     <TextView
         android:id="@+id/tv_name"
-        style="@style/text.title.start"
+        style="@style/text.title2"
         android:layout_marginTop="10dp"
         android:text="@string/hint_name"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,11 +34,11 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/location_white" />
+            android:src="@drawable/location_blue" />
 
         <TextView
             android:id="@+id/tv_location"
-            style="@style/text.normal"
+            style="@style/text.normal.bold"
             android:text="@string/hint_location" />
     </LinearLayout>
 
@@ -62,6 +60,7 @@
 
         <TextView
             android:id="@+id/tv_rating"
+            android:layout_marginEnd="8dp"
             style="@style/text.normal.bold"
             android:text="@string/hint_rating" />
 
@@ -73,7 +72,7 @@
 
     <TextView
         android:id="@+id/textView13"
-        style="@style/text.title.start"
+        style="@style/text.title2"
         android:layout_marginTop="20dp"
         android:text="@string/details_description"
         app:layout_constraintStart_toStartOf="@+id/layout_location"
@@ -90,7 +89,7 @@
     <Button
         android:id="@+id/btn_review"
         style="@style/button.normal"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/review"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

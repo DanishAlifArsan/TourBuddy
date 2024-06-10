@@ -35,7 +35,6 @@ class DetailFragment : Fragment() {
             val destinationId = destination?.destinationId
 
             binding.tvName.text = destination?.destinationName
-            binding.tvLocation.text = destination?.city
             binding.tvSubtitle.text = destination?.city
             binding.tvRating.text = destination?.rating.toString()
             binding.tvReviewCount.text = getString(R.string.hint_review_count, destination?.ratingCount.toString())

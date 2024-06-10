@@ -2,15 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="5dp"
+    style="@style/layout"
     tools:context=".ReviewFragment">
 
     <Button
         android:id="@+id/btn_write_review"
         style="@style/button.normal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:text="@string/review_create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

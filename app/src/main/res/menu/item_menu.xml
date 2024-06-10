@@ -5,5 +5,5 @@
     <item android:id="@+id/action_bookmark"
         android:title="Bookmark" />
     <item android:id="@+id/action_signout"
-        android:title="Sign Out" />
+        android:title="@string/signout" />
 </menu>
