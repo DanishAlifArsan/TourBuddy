@@ -276,8 +276,8 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 val city = it.subAdminArea
 //                val lat = it.latitude.toFloat()
 //                val lon = it.longitude.toFloat()
-                val lat = -6.1753924f
-                val lon = 106.8271528f
+                val lat =  -8.1026167f
+                val lon = 110.4562084f
                 binding.btnLocation.text = city
                 binding.rvDestination.layoutManager = LinearLayoutManager(this)
                 destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->

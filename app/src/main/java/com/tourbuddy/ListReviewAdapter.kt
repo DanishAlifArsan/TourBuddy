@@ -73,7 +73,7 @@ class ListReviewAdapter: ListAdapter<ListReviewsItem, ListReviewAdapter.ListView
                 binding.star5.setImageResource(unfilledStarResId)
             }
             1 -> {
-                binding.star1.setImageResource(unfilledStarResId)
+                binding.star1.setImageResource(filledStarResId)
                 binding.star2.setImageResource(unfilledStarResId)
                 binding.star3.setImageResource(unfilledStarResId)
                 binding.star4.setImageResource(unfilledStarResId)
