@@ -12,11 +12,11 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("destination")
+    @GET("nearby-destinations")
     suspend fun getAllDestinations(
         @Header("Authorization") token: String,
         @Query("lat") lat: Float,
-        @Query("lon") lon: Float
+        @Query("lng") lon: Float
     ): DestinationResponse
 
     @GET("review")

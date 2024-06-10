@@ -274,10 +274,10 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
             if(it != null) {
                 Log.d("TAG", "getAddress: ")
                 val city = it.subAdminArea
-//                val lat = it.latitude.toFloat()
-//                val lon = it.longitude.toFloat()
-                val lat =  -8.1026167f
-                val lon = 110.4562084f
+                val lat = it.latitude.toFloat()
+                val lon = it.longitude.toFloat()
+//                val lat =  -8.102616f
+//                val lon = 110.456204f
                 binding.btnLocation.text = city
                 binding.rvDestination.layoutManager = LinearLayoutManager(this)
                 destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->
