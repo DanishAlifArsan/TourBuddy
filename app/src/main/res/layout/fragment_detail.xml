@@ -78,13 +78,21 @@
         app:layout_constraintStart_toStartOf="@+id/layout_location"
         app:layout_constraintTop_toBottomOf="@+id/layout_location" />
 
-    <TextView
-        android:id="@+id/tv_description"
-        style="@style/text.normal.start"
+    <ScrollView
+        android:id="@+id/layout_description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:text="@string/hint_description"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_review"
         app:layout_constraintStart_toStartOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/textView13">
+
+        <TextView
+            android:id="@+id/tv_description"
+            style="@style/text.normal.start"
+            android:text="@string/hint_description" />
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_review"

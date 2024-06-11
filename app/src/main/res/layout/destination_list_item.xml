@@ -47,7 +47,7 @@
             <TextView
                 android:id="@+id/tv_location"
                 style="@style/text.normal.start"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="5dp"
                 android:text="@string/hint_location"
                 app:layout_constraintStart_toEndOf="@+id/iv_location"
                 app:layout_constraintTop_toTopOf="@+id/iv_location" />

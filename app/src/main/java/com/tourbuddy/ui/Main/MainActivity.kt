@@ -154,12 +154,12 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_profile -> { // todo profile
-                true
-            }
-            R.id.action_bookmark -> { // to do bookmark
-                true
-            }
+//            R.id.action_profile -> { // todo profile
+//                true
+//            }
+//            R.id.action_bookmark -> { // todo bookmark
+//                true
+//            }
             R.id.action_signout -> {
                 AlertDialog.Builder(this).apply {
                     setTitle(getString(R.string.signin))
@@ -278,7 +278,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 val lon = it.longitude.toFloat()
 //                val lat =  -8.102616f
 //                val lon = 110.456204f
-                binding.btnLocation.text = city
+                binding.tvLocation.text = city
                 binding.rvDestination.layoutManager = LinearLayoutManager(this)
                 destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->
                     listDestinationAdapter.addToList(response.listDestinations)

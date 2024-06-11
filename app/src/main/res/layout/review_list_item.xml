@@ -10,6 +10,7 @@
         android:id="@+id/iv_item_photo"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/image_profile" />
@@ -19,10 +20,8 @@
         style="@style/text.small.bold"
         android:layout_marginStart="16dp"
         android:text="@string/hint_name"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_item_photo"
         app:layout_constraintStart_toEndOf="@+id/iv_item_photo"
-        app:layout_constraintTop_toTopOf="@+id/iv_item_photo"
-        app:layout_constraintVertical_bias="0.354" />
+        app:layout_constraintTop_toTopOf="@id/iv_item_photo"/>
 
     <TextView
         android:id="@+id/tv_date"
@@ -48,40 +47,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/iv_item_photo"
         app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/tv_name"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toBottomOf="@id/tv_name">
 
         <ImageView
             android:id="@+id/star1"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/star_disable" />
+
         <ImageView
             android:id="@+id/star2"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/star_disable" />
+
         <ImageView
             android:id="@+id/star3"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/star_disable" />
+
         <ImageView
             android:id="@+id/star4"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/star_disable" />
+
         <ImageView
             android:id="@+id/star5"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/star_disable" />
+
         <TextView
             android:id="@id/tv_rating"
             style="@style/text.small.bold"
-            android:text="@string/hint_rating"/>
+            android:text="@string/hint_rating" />
     </LinearLayout>
 
     <TextView
@@ -90,8 +96,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/hint_review"
-        app:layout_constraintStart_toStartOf="@+id/iv_item_photo"
-        app:layout_constraintTop_toBottomOf="@+id/layout_review" />
+        app:layout_constraintStart_toStartOf="@id/iv_item_photo"
+        app:layout_constraintTop_toBottomOf="@+id/iv_item_photo" />
 
     <ImageView
         android:id="@+id/imageView4"

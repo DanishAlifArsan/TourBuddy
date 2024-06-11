@@ -46,9 +46,9 @@ class DetailActivity : AppCompatActivity() {
             finish()
         }
 
-        //todo bookmark story
-        binding.buttonBookmark.setOnClickListener{
-
-        }
+//        //todo bookmark story
+//        binding.buttonBookmark.setOnClickListener{
+//
+//        }
     }
 }

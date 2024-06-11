@@ -8,21 +8,37 @@
 
     <ImageView
         android:id="@+id/iv_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_location"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_location"
         app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/btn_location"
+        app:layout_constraintTop_toTopOf="@+id/layout_location"
         app:srcCompat="@drawable/user_alt" />
 
-    <Button
-        android:id="@+id/btn_location"
-        style="@style/button.small"
+    <LinearLayout
+        android:id="@+id/layout_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginTop="16dp"
-        android:drawableStart="@drawable/location_blue"
-        android:text="@string/hint_location"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_location"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom"
+            android:src="@drawable/location_blue"
+            app:layout_constraintStart_toStartOf="@+id/tv_item_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_name" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/text.normal.bold"
+            android:layout_marginStart="5dp"
+            android:text="@string/hint_location"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -32,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_location" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_location" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchBar"
