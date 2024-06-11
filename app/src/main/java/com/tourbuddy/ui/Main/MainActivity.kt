@@ -267,6 +267,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     }
 
     private fun setupLocation(location : Location) {
+        stopLocationUpdates()
         currentLocation = location
         val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
         Log.d("TAG", "getMyLastLocation: ")
