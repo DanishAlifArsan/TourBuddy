@@ -41,6 +41,7 @@ class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinati
                 .into(binding.ivItemPhoto)
 
             val filledStarResId = R.drawable.star_enabled
+            val unfilledStarResId =R.drawable.star_disable
 
             val stars : List<ImageView> = listOf(binding.star1,
                 binding.star2,
@@ -50,6 +51,10 @@ class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinati
 
             for (i in 1 .. destination.rating.toInt()) {
                 stars[i-1].setImageResource(filledStarResId)
+            }
+
+            for (i in (destination.rating.toInt() + 1)..stars.size) {
+                stars[i - 1].setImageResource(unfilledStarResId)
             }
 
             holder.itemView.setOnClickListener {
