@@ -26,7 +26,7 @@
     <string name="hint_description">Description</string>
     <string name="hint_rating">5</string>
     <string name="hint_review_count">(%1$s)</string>
-    <string name="hint_review">Review</string>
+    <string name="hint_review">Write your opinion about this location</string>
     <string name="hint_review_date">Date</string>
 
     <string name="error_password">Password must be 8 character</string>
@@ -41,7 +41,7 @@
     <string name="review">Review</string>
     <string name="review_count">%1$s Person reviewed</string>
     <string name="review_create">Write a Review</string>
-    <string name="review_post">Post Review</string>
+    <string name="review_post">Send Review</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

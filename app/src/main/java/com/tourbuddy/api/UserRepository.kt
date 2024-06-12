@@ -3,8 +3,8 @@ package com.tourbuddy.api
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
 import com.tourbuddy.api.auth.AuthApiService
-import com.tourbuddy.api.auth.response.LoginResponse
-import com.tourbuddy.api.auth.response.RegisterResponse
+import com.tourbuddy.api.response.LoginResponse
+import com.tourbuddy.api.response.RegisterResponse
 import com.tourbuddy.pref.UserModel
 import com.tourbuddy.pref.UserPreference
 import kotlinx.coroutines.flow.Flow

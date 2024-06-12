@@ -1,4 +1,4 @@
-package com.tourbuddy.api.auth.response
+package com.tourbuddy.api.response
 
 import com.google.gson.annotations.SerializedName
 

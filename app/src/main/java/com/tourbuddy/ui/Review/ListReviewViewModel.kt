@@ -1,16 +1,9 @@
-package com.tourbuddy.viewModel
+package com.tourbuddy.ui.Review
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tourbuddy.api.ApiConfig
-import com.tourbuddy.api.DestinationResponse
-import com.tourbuddy.api.ListReviewResponse
-import kotlinx.coroutines.CoroutineScope
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.tourbuddy.api.ReviewRepository
+import com.tourbuddy.api.response.ListReviewResponse
 
 class ListReviewViewModel(val repository: ReviewRepository) : ViewModel() {
     val isLoading : LiveData<Boolean> = repository._isLoading

@@ -1,16 +1,11 @@
-package com.tourbuddy.viewModel
+package com.tourbuddy.api
 
-import android.media.Rating
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.google.gson.Gson
-import com.tourbuddy.api.ApiConfig
-import com.tourbuddy.api.ApiService
-import com.tourbuddy.api.ListReviewResponse
-import com.tourbuddy.api.ResultState
-import com.tourbuddy.api.auth.response.AddReviewResponse
-import com.tourbuddy.data.Review
+import com.tourbuddy.api.response.ListReviewResponse
+import com.tourbuddy.api.response.AddReviewResponse
 import com.tourbuddy.pref.UserPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first

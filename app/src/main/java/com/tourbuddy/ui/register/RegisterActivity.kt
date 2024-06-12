@@ -12,7 +12,7 @@ import com.tourbuddy.ui.login.LoginActivity
 import com.tourbuddy.ui.Main.MainActivity
 import com.tourbuddy.api.ResultState
 import com.tourbuddy.databinding.ActivityRegisterBinding
-import com.tourbuddy.viewModel.ViewModelFactory
+import com.tourbuddy.viewModelFactory.ViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -43,33 +43,34 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.edRegisterEmail.text.toString()
             val password = binding.edRegisterPassword.text.toString()
 
-            viewModel.register(name, email, password).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is ResultState.Loading -> {
-                        }
+            if (name == ""){
+                showToast("Name must be filled")
+            }
+            else if (email == "") {
+                showToast("Email must be filled")
+            }
+            else if (password == "") {
+                showToast("Password must be filled")
+            }
+            else {
+                viewModel.register(name, email, password).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is ResultState.Loading -> {
+                            }
 
-                        is ResultState.Success -> {
+                            is ResultState.Success -> {
 //                            showToast("Akun anda sudah jadi")
-                            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
-                            finish()
-                        }
+                                startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+                                finish()
+                            }
 
-                        is ResultState.Error -> {
-                            showToast(result.error)
+                            is ResultState.Error -> {
+                                showToast(result.error)
+                            }
                         }
                     }
                 }
-
-//            if (email.isNotEmpty() && password.isNotEmpty())
-//                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-//                    if (it.isSuccessful){
-//                        startActivity(Intent(this, MainActivity::class.java))
-//                        finish()
-//                    }
-//                }.addOnFailureListener{
-//                    Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
-//                }
             }
 
             binding.btnBack.setOnClickListener {

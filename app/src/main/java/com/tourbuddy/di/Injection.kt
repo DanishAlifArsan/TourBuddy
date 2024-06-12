@@ -6,13 +6,10 @@ import com.tourbuddy.api.UserRepository
 import com.tourbuddy.api.auth.AuthApiConfig
 import com.tourbuddy.pref.UserPreference
 import com.tourbuddy.pref.dataStore
-import com.tourbuddy.viewModel.DestinationRepository
-import com.tourbuddy.viewModel.DestinationViewModel
-import com.tourbuddy.viewModel.ReviewRepository
+import com.tourbuddy.api.DestinationRepository
+import com.tourbuddy.api.ReviewRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 
 object Injection {
     fun provideRepository(context: Context): UserRepository {

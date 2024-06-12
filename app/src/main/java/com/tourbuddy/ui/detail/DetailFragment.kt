@@ -1,4 +1,4 @@
-package com.tourbuddy
+package com.tourbuddy.ui.detail
 
 import android.content.Intent
 import android.net.Uri
@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tourbuddy.api.ListDestinationsItem
+import com.tourbuddy.R
+import com.tourbuddy.ui.Review.ReviewFragment
+import com.tourbuddy.api.response.ListDestinationsItem
 import com.tourbuddy.databinding.FragmentDetailBinding
 
 class DetailFragment : Fragment() {

@@ -1,10 +1,9 @@
-package com.tourbuddy.viewModel
+package com.tourbuddy.api
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.tourbuddy.api.ApiService
-import com.tourbuddy.api.DestinationResponse
+import com.tourbuddy.api.response.DestinationResponse
 import com.tourbuddy.pref.UserPreference
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first

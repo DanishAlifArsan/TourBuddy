@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout"
-    tools:context=".ReviewFragment">
+    tools:context=".ui.Review.ReviewFragment">
 
     <Button
         android:id="@+id/btn_write_review"

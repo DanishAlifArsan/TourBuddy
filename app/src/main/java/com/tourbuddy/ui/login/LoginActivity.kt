@@ -9,11 +9,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tourbuddy.ui.Main.MainActivity
-import com.tourbuddy.OnboardingActivity
+import com.tourbuddy.ui.OnboardingActivity
 import com.tourbuddy.api.ResultState
 import com.tourbuddy.databinding.ActivityLoginBinding
 import com.tourbuddy.ui.register.RegisterActivity
-import com.tourbuddy.viewModel.ViewModelFactory
+import com.tourbuddy.viewModelFactory.ViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,19 +36,28 @@ class LoginActivity : AppCompatActivity() {
         binding.btnSignin.setOnClickListener{
             val email = binding.edLoginEmail.text.toString()
             val password = binding.edLoginPassword.text.toString()
-            viewModel.login(email, password).observe(this){result ->
-                if (result != null) {
-                    when (result) {
-                        is ResultState.Loading -> {
-                        }
+            if (email == ""){
+                showToast("Email must be filled")
+            }
+            else if (password == "") {
+                showToast("Password must be filled")
+            }
+            else {
+                viewModel.login(email, password).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is ResultState.Loading -> {
+                            }
 
-                        is ResultState.Success -> {
+                            is ResultState.Success -> {
 //                            showToast("Anda berhasil login")
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                            finish()
-                        }
-                        is ResultState.Error -> {
-                            showToast(result.error)
+                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                finish()
+                            }
+
+                            is ResultState.Error -> {
+                                showToast(result.error)
+                            }
                         }
                     }
                 }

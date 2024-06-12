@@ -1,4 +1,4 @@
-package com.tourbuddy
+package com.tourbuddy.ui
 
 import android.content.Intent
 import android.os.Bundle

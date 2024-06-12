@@ -1,8 +1,9 @@
-package com.tourbuddy.viewModel
+package com.tourbuddy.ui.Main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.tourbuddy.api.DestinationResponse
+import com.tourbuddy.api.DestinationRepository
+import com.tourbuddy.api.response.DestinationResponse
 
 class DestinationViewModel(val repository: DestinationRepository) : ViewModel() {
     val isLoading : LiveData<Boolean> = repository._isLoading

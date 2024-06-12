@@ -1,16 +1,16 @@
-package com.tourbuddy.api
+package com.tourbuddy.api.response
 
 import com.google.gson.annotations.SerializedName
 
 data class ListReviewResponse(
 
-	@field:SerializedName("listReviews")
+    @field:SerializedName("listReviews")
 	val listReviews: ArrayList<ListReviewsItem>,
 
-	@field:SerializedName("error")
+    @field:SerializedName("error")
 	val error: Boolean? = null,
 
-	@field:SerializedName("message")
+    @field:SerializedName("message")
 	val message: String? = null
 )
 

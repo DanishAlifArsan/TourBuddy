@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout"
-    tools:context=".WriteReviewFragment">
+    tools:context=".ui.AddReview.WriteReviewFragment">
 
     <LinearLayout
         android:id="@+id/layout_rating"

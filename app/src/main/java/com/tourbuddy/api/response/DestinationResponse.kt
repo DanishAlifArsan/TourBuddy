@@ -1,4 +1,4 @@
-package com.tourbuddy.api
+package com.tourbuddy.api.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

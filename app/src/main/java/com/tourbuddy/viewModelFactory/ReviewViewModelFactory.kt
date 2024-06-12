@@ -1,9 +1,12 @@
-package com.tourbuddy.viewModel
+package com.tourbuddy.viewModelFactory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.tourbuddy.api.ReviewRepository
 import com.tourbuddy.di.Injection
+import com.tourbuddy.ui.AddReview.AddReviewViewModel
+import com.tourbuddy.ui.Review.ListReviewViewModel
 
 class ReviewViewModelFactory (private val repository: ReviewRepository) : ViewModelProvider.NewInstanceFactory() {
     companion object {

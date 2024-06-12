@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/layout"
-    tools:context=".DetailFragment">
+    tools:context=".ui.detail.DetailFragment">
 
     <TextView
         android:id="@+id/tv_name"

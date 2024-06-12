@@ -1,21 +1,17 @@
-package com.tourbuddy
+package com.tourbuddy.ui.AddReview
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.tourbuddy.R
 import com.tourbuddy.api.ResultState
 import com.tourbuddy.databinding.FragmentWriteReviewBinding
-import com.tourbuddy.viewModel.ListReviewViewModel
-import com.tourbuddy.viewModel.ReviewViewModelFactory
-import com.tourbuddy.viewModel.ViewModelFactory
-import com.tourbuddy.viewModel.AddReviewViewModel
+import com.tourbuddy.viewModelFactory.ReviewViewModelFactory
 
 class WriteReviewFragment : Fragment() {
     private lateinit var binding : FragmentWriteReviewBinding

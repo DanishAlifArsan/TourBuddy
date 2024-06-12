@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/layout_location"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/layout_location"
-        app:srcCompat="@drawable/user_alt" />
+        app:srcCompat="@drawable/ic_menu" />
 
     <LinearLayout
         android:id="@+id/layout_location"

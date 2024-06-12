@@ -32,18 +32,13 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsResponse
-import com.google.android.gms.location.LocationSettingsStates
 import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.Task
-import com.tourbuddy.ListDestinationAdapter
-import com.tourbuddy.OnboardingActivity
+import com.tourbuddy.ui.OnboardingActivity
 import com.tourbuddy.R
-import com.tourbuddy.api.ListDestinationsItem
-import com.tourbuddy.data.Destination
+import com.tourbuddy.api.response.ListDestinationsItem
 import com.tourbuddy.databinding.ActivityMainBinding
-import com.tourbuddy.viewModel.DestinationViewModel
-import com.tourbuddy.viewModel.DestinationViewModelFactory
-import com.tourbuddy.viewModel.ViewModelFactory
+import com.tourbuddy.viewModelFactory.ViewModelFactory
 import java.util.Locale
 
 
@@ -106,6 +101,9 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         binding.ivProfile.setOnClickListener {
             showMenu(it)
         }
+        binding.layoutLocation.setOnClickListener{
+            createLocationRequest()
+        }
     }
 
     override fun onResume() {
@@ -150,7 +148,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 //            }
             R.id.action_signout -> {
                 AlertDialog.Builder(this).apply {
-                    setTitle(getString(R.string.signin))
+                    setTitle(getString(R.string.signout))
                     setMessage(getString(R.string.hint_signout))
                     setPositiveButton(getString(R.string.signout)){ _, _ ->
                         viewModel.logout()

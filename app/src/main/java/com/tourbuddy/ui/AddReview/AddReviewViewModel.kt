@@ -1,6 +1,7 @@
-package com.tourbuddy.viewModel
+package com.tourbuddy.ui.AddReview
 
 import androidx.lifecycle.ViewModel
+import com.tourbuddy.api.ReviewRepository
 
 class AddReviewViewModel(private val repository: ReviewRepository) : ViewModel() {
 

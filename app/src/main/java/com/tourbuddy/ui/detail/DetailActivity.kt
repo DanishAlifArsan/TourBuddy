@@ -1,11 +1,12 @@
-package com.tourbuddy
+package com.tourbuddy.ui.detail
 
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.tourbuddy.api.ListDestinationsItem
+import com.tourbuddy.R
+import com.tourbuddy.api.response.ListDestinationsItem
 import com.tourbuddy.databinding.ActivityDetailBinding
 import com.tourbuddy.ui.Main.MainActivity
 

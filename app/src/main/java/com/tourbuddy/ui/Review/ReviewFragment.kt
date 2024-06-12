@@ -1,7 +1,6 @@
-package com.tourbuddy
+package com.tourbuddy.ui.Review
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.tourbuddy.R
 
-import com.tourbuddy.api.ListReviewResponse
-import com.tourbuddy.api.ListReviewsItem
-import com.tourbuddy.data.Review
-import com.tourbuddy.databinding.FragmentDetailBinding
+import com.tourbuddy.api.response.ListReviewsItem
 import com.tourbuddy.databinding.FragmentReviewBinding
-import com.tourbuddy.viewModel.DestinationViewModel
-import com.tourbuddy.viewModel.DestinationViewModelFactory
-import com.tourbuddy.viewModel.ListReviewViewModel
-import com.tourbuddy.viewModel.ReviewViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.tourbuddy.ui.AddReview.WriteReviewFragment
+import com.tourbuddy.viewModelFactory.ReviewViewModelFactory
 
 class ReviewFragment : Fragment() {
     private lateinit var binding : FragmentReviewBinding

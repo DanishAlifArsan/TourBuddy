@@ -1,21 +1,23 @@
-package com.tourbuddy
+package com.tourbuddy.ui.Main
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.tourbuddy.api.ListDestinationsItem
+import com.tourbuddy.ui.detail.DetailActivity
+import com.tourbuddy.R
+import com.tourbuddy.api.response.ListDestinationsItem
 import com.tourbuddy.databinding.DestinationListItemBinding
 
-class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinationAdapter.ListViewHolder>(DIFF_CALLBACK), Filterable{
+class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinationAdapter.ListViewHolder>(
+    DIFF_CALLBACK
+), Filterable{
     private var destinationList : List<ListDestinationsItem> = listOf()
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -41,7 +43,7 @@ class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinati
                 .into(binding.ivItemPhoto)
 
             val filledStarResId = R.drawable.star_enabled
-            val unfilledStarResId =R.drawable.star_disable
+            val unfilledStarResId = R.drawable.star_disable
 
             val stars : List<ImageView> = listOf(binding.star1,
                 binding.star2,

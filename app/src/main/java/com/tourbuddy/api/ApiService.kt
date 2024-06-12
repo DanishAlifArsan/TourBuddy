@@ -1,8 +1,8 @@
 package com.tourbuddy.api
 
-import com.tourbuddy.api.auth.response.AddReviewResponse
-import com.tourbuddy.api.auth.response.RegisterResponse
-import retrofit2.Call
+import com.tourbuddy.api.response.AddReviewResponse
+import com.tourbuddy.api.response.DestinationResponse
+import com.tourbuddy.api.response.ListReviewResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET

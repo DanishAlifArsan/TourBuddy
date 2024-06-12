@@ -1,12 +1,10 @@
-package com.tourbuddy.viewModel
+package com.tourbuddy.ui.Main
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.tourbuddy.api.UserRepository
+import com.tourbuddy.api.DestinationRepository
 import com.tourbuddy.di.Injection
-import kotlinx.coroutines.CoroutineScope
 
 class DestinationViewModelFactory (private val repository: DestinationRepository) : ViewModelProvider.NewInstanceFactory() {
     companion object {

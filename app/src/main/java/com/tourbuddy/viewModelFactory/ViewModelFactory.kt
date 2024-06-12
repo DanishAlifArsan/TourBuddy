@@ -1,4 +1,4 @@
-package com.tourbuddy.viewModel
+package com.tourbuddy.viewModelFactory
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
