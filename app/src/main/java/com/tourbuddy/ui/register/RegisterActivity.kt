@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.tourbuddy.ui.login.LoginActivity
 import com.tourbuddy.ui.Main.MainActivity
 import com.tourbuddy.api.ResultState
@@ -17,7 +14,6 @@ import com.tourbuddy.viewModelFactory.ViewModelFactory
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var auth: FirebaseAuth
 
     private val viewModel by viewModels<RegisterViewModel> {
         ViewModelFactory.getInstance(this)
@@ -26,7 +22,6 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = Firebase.auth
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

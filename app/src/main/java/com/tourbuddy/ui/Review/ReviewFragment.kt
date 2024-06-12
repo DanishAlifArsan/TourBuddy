@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import com.tourbuddy.R
 
 import com.tourbuddy.api.response.ListReviewsItem
@@ -21,7 +20,6 @@ class ReviewFragment : Fragment() {
     private lateinit var binding : FragmentReviewBinding
     private lateinit var rvReview: RecyclerView
     private val list = ArrayList<ListReviewsItem>()
-    private lateinit var auth: FirebaseAuth
     private lateinit var listReviewViewModel : ListReviewViewModel
     private var destinationId: String? = null
     private lateinit var listReviewAdapter : ListReviewAdapter
