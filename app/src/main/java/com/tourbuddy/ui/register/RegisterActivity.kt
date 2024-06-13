@@ -9,6 +9,7 @@ import com.tourbuddy.ui.login.LoginActivity
 import com.tourbuddy.ui.Main.MainActivity
 import com.tourbuddy.api.ResultState
 import com.tourbuddy.databinding.ActivityRegisterBinding
+import com.tourbuddy.ui.OnboardingActivity
 import com.tourbuddy.viewModelFactory.ViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
@@ -31,6 +32,10 @@ class RegisterActivity : AppCompatActivity() {
     private fun setupAction() {
         binding.btnSingin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
+        }
+
+        binding.btnBack.setOnClickListener{
+            finish()
         }
 
         binding.btnSignup.setOnClickListener {
@@ -56,8 +61,9 @@ class RegisterActivity : AppCompatActivity() {
 
                             is ResultState.Success -> {
 //                            showToast("Akun anda sudah jadi")
-                                startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
-                                finish()
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
                             }
 
                             is ResultState.Error -> {

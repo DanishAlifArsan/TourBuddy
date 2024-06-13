@@ -46,8 +46,9 @@ class LoginActivity : AppCompatActivity() {
 
                             is ResultState.Success -> {
 //                            showToast("Anda berhasil login")
-                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                                finish()
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
                             }
 
                             is ResultState.Error -> {
@@ -62,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
         binding.btnBack.setOnClickListener{
-            startActivity(Intent(this, OnboardingActivity::class.java))
+            finish()
         }
     }
 

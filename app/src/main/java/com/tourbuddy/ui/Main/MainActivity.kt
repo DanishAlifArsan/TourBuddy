@@ -152,8 +152,9 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                     setMessage(getString(R.string.hint_signout))
                     setPositiveButton(getString(R.string.signout)){ _, _ ->
                         viewModel.logout()
-                        startActivity(Intent(this@MainActivity, OnboardingActivity::class.java))
-                        finish()
+                        val intent = Intent(this@MainActivity, OnboardingActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
                     }
                     setNegativeButton(getString(R.string.cancel)) { _,_ ->
                         setCancelable(true)

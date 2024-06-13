@@ -28,7 +28,7 @@ data class ListDestinationsItem(
 	@field:SerializedName("destination_id")
 	val destinationId: String,
 
-	@field:SerializedName("rating")
+	@field:SerializedName("eco_Rating")
 	val rating: Float,
 
 	@field:SerializedName("description")

@@ -43,7 +43,6 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.buttonBack.setOnClickListener{
-            startActivity(Intent(this@DetailActivity, MainActivity::class.java))
             finish()
         }
 
