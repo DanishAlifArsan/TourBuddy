@@ -21,7 +21,7 @@ class ApiConfig {
 //                .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://auth-service-jcoc7wc2ka-et.a.run.app/api/")
+                .baseUrl("https://tourbuddy-api-jcoc7wc2ka-et.a.run.app/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
