@@ -24,6 +24,7 @@
     <string name="hint_location">Location</string>
     <string name="hint_search">Search your destination</string>
     <string name="hint_description">Description</string>
+    <string name="hint_eco_rating">%1$s/5</string>
     <string name="hint_rating">5</string>
     <string name="hint_review_count">(%1$s)</string>
     <string name="hint_review">Write your opinion about this location</string>

@@ -80,9 +80,10 @@
 
             <TextView
                 android:id="@+id/tv_eco_rating"
-                android:layout_marginEnd="8dp"
                 style="@style/text.normal.bold"
-                android:text="@string/hint_rating" />
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:text="@string/hint_eco_rating" />
         </LinearLayout>
     </LinearLayout>
 
