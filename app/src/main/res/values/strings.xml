@@ -31,6 +31,7 @@
     <string name="hint_review_date">Date</string>
 
     <string name="eco_rating">Eco Rating</string>
+    <string name="eco_value">n/5</string>
     <string name="user_rating">User Rating</string>
 
     <string name="error_password">Password must be 8 character</string>
