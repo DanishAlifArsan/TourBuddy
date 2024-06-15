@@ -36,8 +36,8 @@ class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinati
         fun bind(holder : ListViewHolder, destination : ListDestinationsItem) {
             binding.tvItemName.text = destination.destinationName
             binding.tvLocation.text = destination.city
-            binding.tvRating.text = destination.rating.toString()
-            binding.tvReviewCount.text = holder.itemView.context.getString(R.string.review_count, destination.ratingCount.toString())
+            binding.tvRating.text = destination.ecoRating.toString()
+//            binding.tvReviewCount.text = holder.itemView.context.getString(R.string.review_count, destination.ratingCount.toString())
             Glide.with(holder.itemView.context)
                 .load(destination.photoUrl)
                 .into(binding.ivItemPhoto)
@@ -51,11 +51,11 @@ class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinati
                 binding.star4,
                 binding.star5)
 
-            for (i in 1 .. destination.rating.toInt()) {
+            for (i in 1 .. destination.ecoRating.toInt()) {
                 stars[i-1].setImageResource(filledStarResId)
             }
 
-            for (i in (destination.rating.toInt() + 1)..stars.size) {
+            for (i in (destination.ecoRating.toInt() + 1)..stars.size) {
                 stars[i - 1].setImageResource(unfilledStarResId)
             }
 

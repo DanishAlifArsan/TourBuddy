@@ -29,7 +29,10 @@ data class ListDestinationsItem(
 	val destinationId: String,
 
 	@field:SerializedName("eco_Rating")
-	val rating: Float,
+	val ecoRating: Float,
+
+	@field:SerializedName("rating")
+	val userRating: Float,
 
 	@field:SerializedName("description")
 	val description: String,

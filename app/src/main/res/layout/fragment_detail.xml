@@ -13,70 +13,125 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_subtitle"
-        style="@style/text.subtitle"
-        android:layout_marginTop="10dp"
-        android:text="@string/hint_location"
-        app:layout_constraintStart_toStartOf="@+id/tv_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+        <LinearLayout
+            android:id="@+id/layout_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/location_blue" />
+
+            <TextView
+                android:id="@+id/tv_subtitle"
+                style="@style/text.subtitle"
+                android:text="@string/hint_location"/>
+        </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/layout_location"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tv_subtitle"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_subtitle">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:src="@drawable/location_blue" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_location"-->
+<!--            style="@style/text.normal.bold"-->
+<!--            android:text="@string/hint_location" />-->
+<!--    </LinearLayout>-->
 
     <LinearLayout
-        android:id="@+id/layout_location"
+        android:id="@+id/layout_eco_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/tv_subtitle"
-        app:layout_constraintTop_toBottomOf="@+id/tv_subtitle">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/location_blue" />
-
+        app:layout_constraintStart_toStartOf="@+id/layout_location"
+        app:layout_constraintTop_toBottomOf="@+id/layout_location">
         <TextView
-            android:id="@+id/tv_location"
             style="@style/text.normal.bold"
-            android:text="@string/hint_location" />
+            android:text="@string/eco_rating" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/star_enabled" />
+
+            <TextView
+                android:id="@+id/tv_eco_rating"
+                android:layout_marginEnd="8dp"
+                style="@style/text.normal.bold"
+                android:text="@string/hint_rating" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layout_rating"
+        android:id="@+id/layout_user_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="50dp"
-        app:layout_constraintStart_toEndOf="@+id/layout_location"
-        app:layout_constraintTop_toBottomOf="@+id/tv_subtitle">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/star_enabled" />
+        android:orientation="vertical"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/layout_eco_rating"
+        app:layout_constraintTop_toTopOf="@+id/layout_eco_rating">
 
         <TextView
-            android:id="@+id/tv_rating"
-            android:layout_marginEnd="8dp"
             style="@style/text.normal.bold"
-            android:text="@string/hint_rating" />
+            android:text="@string/user_rating" />
 
-        <TextView
-            android:id="@+id/tv_review_count"
-            style="@style/text.normal"
-            android:text="@string/hint_review_count" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/star_enabled" />
+
+            <TextView
+                android:id="@+id/tv_rating"
+                android:layout_marginEnd="8dp"
+                style="@style/text.normal.bold"
+                android:text="@string/hint_rating" />
+
+            <TextView
+                android:id="@+id/tv_review_count"
+                style="@style/text.normal"
+                android:text="@string/hint_review_count" />
+        </LinearLayout>
     </LinearLayout>
+
+
 
     <TextView
         android:id="@+id/textView13"
         style="@style/text.title2"
         android:layout_marginTop="20dp"
         android:text="@string/details_description"
-        app:layout_constraintStart_toStartOf="@+id/layout_location"
-        app:layout_constraintTop_toBottomOf="@+id/layout_location" />
+        app:layout_constraintStart_toStartOf="@+id/layout_eco_rating"
+        app:layout_constraintTop_toBottomOf="@+id/layout_eco_rating" />
 
     <ScrollView
         android:id="@+id/layout_description"

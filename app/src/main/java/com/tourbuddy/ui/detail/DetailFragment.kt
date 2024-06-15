@@ -38,7 +38,8 @@ class DetailFragment : Fragment() {
 
             binding.tvName.text = destination?.destinationName
             binding.tvSubtitle.text = destination?.city
-            binding.tvRating.text = destination?.rating.toString()
+            binding.tvEcoRating.text = destination?.ecoRating.toString()
+            binding.tvRating.text = destination?.userRating.toString()
             binding.tvReviewCount.text = getString(R.string.hint_review_count, destination?.ratingCount.toString())
             binding.tvDescription.text = destination?.description
 

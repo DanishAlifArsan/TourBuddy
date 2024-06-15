@@ -29,6 +29,9 @@
     <string name="hint_review">Write your opinion about this location</string>
     <string name="hint_review_date">Date</string>
 
+    <string name="eco_rating">Eco Rating</string>
+    <string name="user_rating">User Rating</string>
+
     <string name="error_password">Password must be 8 character</string>
     <string name="error">Unknown error occurred</string>
     <string name="error_permission">Permission not granted</string>

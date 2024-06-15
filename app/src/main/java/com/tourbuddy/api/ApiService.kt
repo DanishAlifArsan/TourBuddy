@@ -16,7 +16,7 @@ interface ApiService {
     suspend fun getAllDestinations(
         @Header("Authorization") token: String,
         @Query("lat") lat: Float,
-        @Query("lng") lon: Float
+        @Query("lon") lon: Float
     ): DestinationResponse
 
     @GET("review")

@@ -33,14 +33,14 @@
         app:layout_constraintTop_toTopOf="@+id/tv_name"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/btn_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_date"
-        app:srcCompat="@drawable/share_social" />
+<!--    <ImageView-->
+<!--        android:id="@+id/btn_share"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/tv_date"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/tv_date"-->
+<!--        app:srcCompat="@drawable/share_social" />-->
 
     <LinearLayout
         android:id="@+id/layout_review"

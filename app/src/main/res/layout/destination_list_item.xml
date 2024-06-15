@@ -102,15 +102,15 @@
                     android:text="@string/hint_rating" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_review_count"
-                style="@style/text.normal.start"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/review_count"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_item_photo"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_review_count"-->
+<!--                style="@style/text.normal.start"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:text="@string/review_count"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/iv_item_photo"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/linearLayout"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
