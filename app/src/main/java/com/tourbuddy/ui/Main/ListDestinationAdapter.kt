@@ -1,6 +1,7 @@
 package com.tourbuddy.ui.Main
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -19,6 +20,7 @@ class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinati
     DIFF_CALLBACK
 ), Filterable{
     private var destinationList : List<ListDestinationsItem> = listOf()
+    private var filteredList : List<ListDestinationsItem> = listOf()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -66,9 +68,10 @@ class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinati
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 return FilterResults().apply {
-                    values = if (constraint.isNullOrEmpty())
+                    filteredList = if (constraint.isNullOrEmpty())
                         destinationList
                     else onFilter(destinationList, constraint.toString())
+                    values = filteredList
                 }
             }
 
@@ -90,5 +93,13 @@ class ListDestinationAdapter() : ListAdapter<ListDestinationsItem, ListDestinati
     fun addToList(_destinationList : List<ListDestinationsItem>) {
         destinationList = _destinationList
         submitList(destinationList)
+    }
+
+    fun isListEmpty() : Boolean {
+        return destinationList.isEmpty()
+    }
+
+    fun isFilterListEmpty() : Boolean {
+        return filteredList.isEmpty()
     }
 }

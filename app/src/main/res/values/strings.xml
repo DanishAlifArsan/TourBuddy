@@ -38,6 +38,7 @@
     <string name="error">Unknown error occurred</string>
     <string name="error_permission">Permission not granted</string>
     <string name="error_location">You need to enable location setting</string>
+    <string name="error_destination">Nearby destination not found</string>
 
     <string name="home_title">Find your Happiness \nwith Us!</string>
     <string name="details_title">Details</string>

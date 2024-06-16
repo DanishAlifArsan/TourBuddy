@@ -10,6 +10,8 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -19,7 +21,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +37,6 @@ import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.tasks.Task
 import com.tourbuddy.ui.OnboardingActivity
 import com.tourbuddy.R
-import com.tourbuddy.api.response.ListDestinationsItem
 import com.tourbuddy.databinding.ActivityMainBinding
 import com.tourbuddy.viewModelFactory.ViewModelFactory
 import java.util.Locale
@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding : ActivityMainBinding
     private lateinit var rvDestination: RecyclerView
     private lateinit var listDestinationAdapter : ListDestinationAdapter
-    private val list = ArrayList<ListDestinationsItem>()
     private lateinit var destinationViewModel : DestinationViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest : LocationRequest
@@ -86,15 +85,20 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 
         with(binding){
             searchBar.clearFocus()
-            searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
+            searchBar.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
                 }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    listDestinationAdapter.filter.filter(newText)
-                    return true
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    listDestinationAdapter.filter.filter(p0)
+                    showErrorMessage(listDestinationAdapter.isFilterListEmpty())
                 }
+
+                override fun afterTextChanged(p0: Editable?) {
+
+                }
+
             })
         }
 
@@ -178,6 +182,14 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
             binding.progressBar.visibility = View.VISIBLE
         } else {
             binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    private fun showErrorMessage(isError : Boolean) {
+        if (isError) {
+            binding.tvError.visibility = View.VISIBLE
+        } else {
+            binding.tvError.visibility = View.GONE
         }
     }
 
@@ -271,6 +283,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 destinationViewModel.getAllDestination(lat, lon).observe(this) {response ->
                     listDestinationAdapter.addToList(response.listDestinations)
                     rvDestination.adapter = listDestinationAdapter
+                    showErrorMessage(listDestinationAdapter.isListEmpty())
                 }
             }
         }

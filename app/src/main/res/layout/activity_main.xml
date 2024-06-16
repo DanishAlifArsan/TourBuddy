@@ -50,15 +50,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_location" />
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchBar"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ed_layout_search"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.input_field.normal"
         android:layout_marginTop="16dp"
-        app:queryHint="@string/hint_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintVertical_bias="1.0"/>
+        app:layout_constraintVertical_bias="1.0"
+        app:startIconDrawable="@drawable/search">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_search"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_destination"
@@ -68,7 +76,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+        app:layout_constraintTop_toBottomOf="@+id/ed_layout_search" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -79,7 +87,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchBar"
+        app:layout_constraintTop_toBottomOf="@id/ed_layout_search"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        style="@style/text.subtitle.center"
+        android:text="@string/error_destination"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ed_layout_search"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
