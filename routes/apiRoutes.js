@@ -7,5 +7,6 @@ router.get('/destination', verifyToken, apiController.getDestinationByCoordinate
 router.get('/review', verifyToken, apiController.getReviewsByDestinationId);
 router.post('/addreview', verifyToken, apiController.addReview);
 router.get('/import-destinations', verifyToken, apiController.importDestinations);
+router.get('/nearby-destinations', verifyToken, apiController.getNearbyDestinations);
 
 module.exports = router;

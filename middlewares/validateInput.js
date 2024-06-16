@@ -1,5 +1,6 @@
 const { body, validationResult } = require('express-validator');
 
+
 // Function to handle validation errors and return customized messages
 const handleValidationErrors = (req, res, next) => {
     const errors = validationResult(req);
@@ -10,7 +11,7 @@ const handleValidationErrors = (req, res, next) => {
             message: `"${firstError.param}" ${firstError.msg}`
         });
     }
-    return null;
+    next();
 };
 
 const validateSignup = [

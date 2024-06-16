@@ -14,12 +14,17 @@ async function updateDestinations() {
       const destinationId = doc.id;
 
       // Update photoUrl and url_maps
-      const photoUrl = `https://storage.cloud.google.com/tourbuddy-dataset/assets-gambar/${destinationData.destination_id}%20${destinationData.destination_name}.jpg`;
+      const photoUrl = `https://storage.googleapis.com/tourbuddy-dataset/assets-gambar/${destinationData.destination_id}.jpg`;
       const mapsUrl = `https://maps.google.com/?q=${destinationData.lat},${destinationData.lon}`;
+
+      // Get the number of reviews
+      const reviews = destinationData.reviews || [];
+      const ratingCount = reviews.length;
 
       batch.update(destinationsRef.doc(destinationId), {
         photoUrl: photoUrl,
-        url_maps: mapsUrl
+        url_maps: mapsUrl,
+        rating_count: ratingCount
       });
     });
 

@@ -1,5 +1,5 @@
 # Use the official Node.js 14 image
-FROM node:20
+FROM node:14
 
 # Set working directory
 WORKDIR /usr/src/app
