@@ -13,15 +13,15 @@ TBuddy aims to develop a mobile application that helps eco-conscious travelers d
 
 ## Preview 
 
-![login screen](https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/login.jpg) ![sign up screen](https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/sign%20up.jpg)
+<img src="https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/login.jpg" width="360" height="780"> <img src="https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/sign%20up.jpg" width="360" height="780">
 
 ### Login and Sign Up
 
-![destination recommendation](https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/destination%20recommendation.jpg) ![destination detail](https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/detail.jpg)
+<img src="https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/destination%20recommendation.jpg" width="360" height="780"> <img src="https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/detail.jpg" width="360" height="780">
 
 ### Destination Recommendation and Destination Detail
 
-![review](https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/review.jpg) ![write review](https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/write%20review.jpg)
+<img src="https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/review.jpg" width="360" height="780"> <img src="https://github.com/DanishAlifArsan/Screenshot/blob/main/TBuddy/write%20review.jpg" width="360" height="780">
 
 ### Review and Write Review
 
