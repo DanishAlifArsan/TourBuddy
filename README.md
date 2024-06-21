@@ -1,7 +1,5 @@
 # TourBuddy
 
-## Introduction
-
 TBuddy aims to develop a mobile application that helps eco-conscious travelers discover sustainable tourist destinations. The app provide information on places prioritizing environmental sustainability and local culture, allowing users to rate and review destinations, plan trips, and learn about responsible travel practices.
 
 ## Capstone Project Bangkit Member
