@@ -1,4 +1,4 @@
-# TBuddy - Tour Buddy
+# TourBuddy
 
 ## What is TBuddy
 
