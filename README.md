@@ -4,12 +4,12 @@ TBuddy aims to develop a mobile application that helps eco-conscious travelers d
 
 ## Capstone Project Bangkit Member
 
-| Team Name                  | Bangkit Id   |
-| -------------------------  | -----------  |
-| Haidar Zakki Jumali        | M258D4KY1421 |
-| Andrian Satrio Bethaviaji  | M258D4KY1987 |
-| Hilmi Naufal Ramadhani     | M258D4KY2149 |
-| Rafi Satria Dwi Awanda     | C229D4KY0473 |
-| Muhammad Mirza Raziq Akbar | C382D4KY0586 |
-| Billie Ahmad Santoso       | A279D4KY3723 |
-| Danish Alif Arsan          | A006D4KY4446 |
+| Team Name                  | Bangkit Id   | Github                                                |
+| -------------------------  | -----------  | ---------------------------------------------------   |
+| Haidar Zakki Jumali        | M258D4KY1421 | [Hazarddrips](https://github.com/Hazarddrips)         |
+| Andrian Satrio Bethaviaji  | M258D4KY1987 | [iambethaviaji](https://github.com/iambethaviaji)     |
+| Hilmi Naufal Ramadhani     | M258D4KY2149 | [Ashurinnn123](https://github.com/Ashurinnn123)       |
+| Rafi Satria Dwi Awanda     | C229D4KY0473 | [RafiAwanda123](https://github.com/RafiAwanda123)     |
+| Muhammad Mirza Raziq Akbar | C382D4KY0586 | [mirzaraziq](https://github.com/mirzaraziq)           |
+| Billie Ahmad Santoso       | A279D4KY3723 | [Billie014](https://github.com/Billie014)             |
+| Danish Alif Arsan          | A006D4KY4446 | [DanishAlifArsan](https://github.com/DanishAlifArsan) |
