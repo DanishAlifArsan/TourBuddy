@@ -13,3 +13,15 @@ TBuddy aims to develop a mobile application that helps eco-conscious travelers d
 | Muhammad Mirza Raziq Akbar | C382D4KY0586 | [mirzaraziq](https://github.com/mirzaraziq)           |
 | Billie Ahmad Santoso       | A279D4KY3723 | [Billie014](https://github.com/Billie014)             |
 | Danish Alif Arsan          | A006D4KY4446 | [DanishAlifArsan](https://github.com/DanishAlifArsan) |
+
+## Documentation
+### Machine Learning
+https://github.com/DanishAlifArsan/TourBuddy/tree/Machine-Learning
+### Mobile Development
+https://github.com/DanishAlifArsan/TourBuddy/tree/MobileD
+### Cloud Computing 
+https://github.com/DanishAlifArsan/TourBuddy/tree/cloud-computing
+
+https://github.com/DanishAlifArsan/TourBuddy/tree/cc-2
+
+https://github.com/DanishAlifArsan/TourBuddy/tree/maps-api
